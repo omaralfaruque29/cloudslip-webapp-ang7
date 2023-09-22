@@ -1,0 +1,20 @@
+export const CREATE_APP = 'api/application/create';
+export const UPDATE_APP = 'api/application/update';
+export const GET_APPLICATION_LIST = 'api/application/get-list';
+export const GET_APP_DETAIL = 'api/application/get/';
+export const GET_COMMIT_STATE_LIST = 'api/app-commit-state/get-states/';
+export const UPDATE_PIPELINE_STEP_SUCCESSOR = "api/app-pipeline-step/update-pipeline-step-successor";
+export const CREATE_TEMPLATE = 'api/application/create-template';
+export const CREATE_CUSTOM_PIPELINE_STEP = 'api/app-pipeline-step/add-custom-pipeline-step';
+export const FETCH_LOGS = 'api/log/fetch';
+export const GET_SYNCED_COMMITS = 'api/app-commit-state/sync/';
+export const DELETE_APPLICATION = 'api/application/delete/';
+export const TRIGGER_STEP = 'api/pipeline/run-step/';
+export const ADD_ADVANCED_CONFIG = 'api/application/add-advance-config';
+export const FETCH_GIT_REPOSITORIES = 'api/git/get-repositories';
+export const FETCH_GIT_BRANCHES = 'api/git/get-branches/';
+export const FETCH_APP_ENVIRONMENT_CHECKLIST = 'api/app-env-checklist/get-checklists';
+export const ADD_APP_ENVIRONMENT_CHECKLIST_ITEM = "api/app-env-checklist/add-checklists";
+export const UPDATE_APP_ENVIRONMENT_CHECKLIST_ITEM = "api/app-env-checklist/update-checklists";
+export const DELETE_APP_ENVIRONMENT_CHECKLIST_ITEM = "api/app-env-checklist/delete-checklists";
+

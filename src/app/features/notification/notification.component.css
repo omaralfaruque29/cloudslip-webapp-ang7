@@ -1,0 +1,13 @@
+.checked{
+    /*border : 1px solid darkorange;*/
+    padding : 1rem;
+    background-color: lightgray;
+    cursor: pointer;
+}
+
+.not-checked{
+    /*border : 1px solid darkorange;*/
+    padding : 1rem;
+    background-color: darkgray;
+    cursor: pointer;
+}

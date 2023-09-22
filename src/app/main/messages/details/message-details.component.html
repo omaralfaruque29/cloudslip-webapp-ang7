@@ -1,0 +1,110 @@
+<div class="container-fluid">
+    <div class="block-header">
+        <div class="row">
+            <div class="col-lg-5 col-md-8 col-sm-12">
+                <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"
+                        (click)="toggleFullWidth()">
+                        <i class="fa fa-arrow-left" *ngIf="sidebarVisible"></i>
+                        <i class="fa fa-arrow-right" *ngIf="!sidebarVisible"></i>
+                    </a> Inbox</h2>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a [routerLink]="['/admin']"><i class="icon-home"></i></a></li>
+                    <li class="breadcrumb-item">Messages</li>
+                    <li class="breadcrumb-item active">Inbox</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row clearfix">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="mobile-left">
+                    <a class="btn btn-primary toggle-email-nav collapsed" href="javascript:void(0);" role="button"
+                        (click)="toggleMenu()">
+                        <span class="btn-label">
+                            <i class="la la-bars"></i>
+                        </span>
+                        Menu
+                    </a>
+                </div>
+                <div class="mail-inbox">
+                    <div class="mail-left collapse" id="email-nav" [ngClass]="{'show':showInboxMenu}">
+                        <div class="mail-compose m-b-20">
+                            <a [routerLink]="['/main/messages/compose']" class="btn btn-danger btn-block">Compose</a>
+                        </div>
+                        <div class="mail-side">
+                            <ul class="nav">
+                                <li [ngClass]="{'active':parentState == 'inbox'}"><a
+                                        [routerLink]="['/main/messages/inbox']"><i class="icon-envelope"></i>Inbox<span
+                                            class="badge badge-primary float-right">6</span></a></li>
+                                <li [ngClass]="{'active':parentState == 'sent'}"><a
+                                        [routerLink]="['/main/messages/sent']"><i class="icon-cursor"></i>Sent</a></li>
+                                <li><a href="javascript:void(0);"><i class="icon-envelope-open"></i>Draft<span
+                                            class="badge badge-info float-right">3</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mail-right">
+                        <div class="header d-flex align-center">
+                            <div class="btn-group">
+                                <a *ngIf="parentState == 'inbox'" [routerLink]="['/main/messages/inbox']"
+                                    class="mail-back btn btn-outline-secondary btn-sm"><i
+                                        class="fa fa-arrow-left"></i>&nbsp; Back</a>
+                                <a *ngIf="parentState == 'sent'" [routerLink]="['/main/messages/sent']"
+                                    class="mail-back btn btn-outline-secondary btn-sm"><i
+                                        class="fa fa-arrow-left"></i>&nbsp; Back</a>
+                                <a href="javascript:void(0);" class="btn btn-outline-secondary btn-sm hidden-sm"><i
+                                        class="fa fa-refresh"></i>&nbsp; Refresh</a>
+                                <a href="javascript:void(0);" class="btn btn-outline-secondary btn-sm"><i
+                                        class="fa fa-trash-o"></i>&nbsp; Trash</a>
+                                <a href="javascript:void(0);" class="btn btn-outline-secondary btn-sm"><i
+                                        class="fa fa-eye"></i>&nbsp; Mark as unread</a>
+                            </div>
+                            <form class="ml-auto">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Search Mail"
+                                        aria-label="Search Mail" aria-describedby="search-mail">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text" id="search-mail"><i
+                                                class="icon-magnifier"></i></span>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="mail-detail-full" id="mail-detail-open" style="margin-top: 70px">
+                            <div class="message-subject-container">
+                                <h5>{{focusingMessage.subject}}</h5>
+                            </div>
+                            <div *ngFor="let message of messageList; let i = index">
+                                <div class="detail-header">
+                                    <div class="media">
+                                        <div class="float-left">
+                                            <div class="m-r-20"><img src="assets/images/ic_user.png" alt=""></div>
+                                        </div>
+                                        <div class="media-body">
+                                            <p class="mb-0"><strong class="text-muted m-r-5">From:</strong><a
+                                                    class="text-default"
+                                                    href="javascript:void(0);">{{message.sender.email}}</a> <span
+                                                    class="text-muted text-sm float-right">{{message.createDate | date:'medium'}}</span>
+                                            </p>
+                                            <p class="mb-0"><strong class="text-muted m-r-5">To:</strong><span
+                                                    *ngFor="let recipient of message.recipientList; let i = index">{{recipient.user.email}}&nbsp;&nbsp;</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mail-cnt" [innerHTML]="message.content"></div>
+                                <div style="margin-top: 20px">
+                                    <strong>Click here to</strong>&nbsp;&nbsp;
+                                    <a href="app-compose.html">Reply</a>&nbsp; or &nbsp;
+                                    <a href="app-compose.html">Forward</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

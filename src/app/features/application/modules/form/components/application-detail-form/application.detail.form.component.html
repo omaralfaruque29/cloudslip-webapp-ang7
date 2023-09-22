@@ -1,0 +1,112 @@
+<form [formGroup]="applicationDetailForm" (ngSubmit)='submit()' novalidate class="px-4">
+
+    <div class="row">
+        <div class="col-md-4">
+            <label class="mt-3 mb-1">Application Name *</label>
+            <input formControlName="name" class="form-control" name="text" #appName
+                (blur)="modifyPackageName(appName.value)"
+                [ngClass]="{'parsley-error':!applicationDetailForm.controls['name'].valid && (applicationDetailForm.controls['name'].touched )}">
+            <ul class="parsley-errors-list filled"
+                *ngIf="applicationDetailForm.controls['name'].invalid && (applicationDetailForm.controls['name'].dirty || applicationDetailForm.controls['name'].touched)">
+                <li class="parsley-required" *ngIf="applicationDetailForm.controls['name'].errors.required">
+                    Application Name is required.
+                </li>
+            </ul>
+            <!-- <div class="input-group mb-3"> -->
+        </div>
+        <div class="col-md-4">
+            <label class="mt-3 mb-1">Team Name *</label>
+            <div class="input-group">
+                <select class="custom-select" formControlName="teamId" id="inputGroupSelect01"
+                    [ngClass]="{'parsley-error':!applicationDetailForm.controls['teamId'].valid && (applicationDetailForm.controls['teamId'].touched )}">
+                    <option *ngFor="let team of teams" [value]="team.id"
+                        [selected]="team.id === applicationDetailForm.controls['teamId'].value">
+                        {{team.name}}
+                    </option>
+                </select>
+            </div>
+            <ul class="parsley-errors-list filled"
+                *ngIf="applicationDetailForm.controls['teamId'].invalid && (applicationDetailForm.controls['teamId'].dirty || applicationDetailForm.controls['teamId'].touched)">
+                <li class="parsley-required" *ngIf="applicationDetailForm.controls['teamId'].errors.required">
+                    Team Name is required.
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <label class="mt-3 mb-1">Application type *</label>
+            <!-- <select class="custom-select" formControlName="applicationType" id="inputGroupSelect01"
+                [ngClass]="{'parsley-error':!applicationDetailForm.controls['applicationType'].valid && (applicationDetailForm.controls['applicationType'].touched )}">
+                <option *ngFor="let appType of appTypes" [value]="appType.value"
+                    [selected]="appType.value === applicationDetailForm.controls['applicationType'].value">
+                    {{appType.name}}
+                </option>
+            </select> -->
+            <input [(ngModel)]="appType" [ngModelOptions]="{standalone: true}" class="form-control" name="text" disabled readonly>
+            <!-- <ul class="parsley-errors-list filled"
+                *ngIf="applicationDetailForm.controls['applicationType'].invalid && (applicationDetailForm.controls['applicationType'].dirty || applicationDetailForm.controls['applicationType'].touched)">
+                <li class="parsley-required" *ngIf="applicationDetailForm.controls['applicationType'].errors.required">
+                    Application Type is required.
+                </li>
+            </ul> -->
+        </div>
+
+        <!-- </div> -->
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-4" *ngIf="applicationDetailForm.controls.applicationType.value === 'SPRING_BOOT'"
+            @myInsertRemoveTrigger>
+            <label class="mt-3">Application Build Type *</label>
+            <!-- <input formControlName="applicationBuildType" class="form-control" name="text"> -->
+            <select class="custom-select" formControlName="applicationBuildType"
+                [ngClass]="{'parsley-error':!applicationDetailForm.controls['applicationBuildType'].valid && (applicationDetailForm.controls['applicationBuildType'].touched )}">
+                <option *ngFor="let applicationBuildType of applicationBuildTypes" [value]="applicationBuildType.value"
+                    [selected]="applicationBuildType.value === applicationDetailForm.controls['applicationBuildType'].value">
+                    {{applicationBuildType.name}}
+                </option>
+            </select>
+            <ul class="parsley-errors-list filled"
+                *ngIf="applicationDetailForm.controls['applicationBuildType'].invalid && (applicationDetailForm.controls['applicationBuildType'].dirty || applicationDetailForm.controls['applicationBuildType'].touched)">
+                <li class="parsley-required"
+                    *ngIf="applicationDetailForm.controls['applicationBuildType'].errors.required">
+                    Application Build Type is required.
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-md-4" @myInsertRemoveTrigger
+        *ngIf="applicationDetailForm.controls.applicationType.value === 'SPRING_BOOT'">
+            <label class="mt-3">Package Name
+                {{ applicationDetailForm.controls.applicationType.value === 'SPRING_BOOT' ? '*' : ''}}</label>
+            <input formControlName="packageName" class="form-control" name="text">
+            <ul class="parsley-errors-list filled"
+                *ngIf="applicationDetailForm.controls['packageName'].invalid && (applicationDetailForm.controls['packageName'].dirty || applicationDetailForm.controls['packageName'].touched)">
+                <li class="parsley-required" *ngIf="applicationDetailForm.controls['packageName'].errors.required">
+                    Package Name is required.
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-4" *ngIf="repoChecker">
+            <label class="mt-3">Branch Name *</label>
+            <select class="custom-select" formControlName="gitBranchName" id="inputGroupSelect01"
+                [ngClass]="{'parsley-error':!applicationDetailForm.controls['gitBranchName'].valid && (applicationDetailForm.controls['gitBranchName'].touched )}">
+                <option *ngFor="let branch of repoBranches; let i=index" [value]="branch" [selected]="i===0">
+                    {{branch}}
+                </option>
+            </select>
+            <ul class="parsley-errors-list filled"
+                *ngIf="applicationDetailForm.controls['gitBranchName'].invalid && (applicationDetailForm.controls['gitBranchName'].dirty || applicationDetailForm.controls['gitBranchName'].touched)">
+                <li class="parsley-required" *ngIf="applicationDetailForm.controls['gitBranchName'].errors.required">
+                    Branch Name is required.
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- <div class="row" *ngIf="repoChecker">
+        <div class="col-md-4">
+            <label class="mt-3 mb-1">Git Repository</label>
+
+        </div>
+    </div> -->
+</form>

@@ -1,0 +1,136 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{modalHeader}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="kubeClusterForm" (ngSubmit)='submit()' novalidate>
+
+        <div class="form-group p-2">
+            <label class="mt-3 mb-1">Name *</label>
+            <input formControlName="name" class="form-control" name="text"
+                [ngClass]="{'parsley-error':!kubeClusterForm.controls['name'].valid && (kubeClusterForm.controls['name'].touched )}">
+            <ul class="parsley-errors-list filled"
+                *ngIf="kubeClusterForm.controls['name'].invalid && (kubeClusterForm.controls['name'].dirty || kubeClusterForm.controls['name'].touched)">
+                <li class="parsley-required" *ngIf="kubeClusterForm.controls['name'].errors.required">
+                    Name is required.
+                </li>
+            </ul>
+
+            <label class="mt-3 mb-1">Default Namespace *</label>
+            <input formControlName="defaultNamespace" class="form-control" name="defaultNamespace"
+                   [ngClass]="{'parsley-error':!kubeClusterForm.controls['defaultNamespace'].valid && (kubeClusterForm.controls['defaultNamespace'].touched )}">
+            <ul class="parsley-errors-list filled"
+                *ngIf="kubeClusterForm.controls['defaultNamespace'].invalid && (kubeClusterForm.controls['defaultNamespace'].dirty || kubeClusterForm.controls['defaultNamespace'].touched)">
+                <li class="parsley-required" *ngIf="kubeClusterForm.controls['defaultNamespace'].errors.required">
+                    Name is required.
+                </li>
+            </ul>
+
+            <label class="mt-3 mb-1">Dashboard URL</label>
+            <input formControlName="dashboardUrl" class="form-control" name="dashboardUrl">
+
+
+            <label class="mt-3 mb-1">Region *</label>
+            <div class="input-group mb-3">
+                <select class="custom-select" formControlName="regionId" id="inputGroupSelect01"
+                        [ngClass]="{'parsley-error':!kubeClusterForm.controls['regionId'].valid && (kubeClusterForm.controls['regionId'].touched )}">
+                    <option *ngFor="let region of regionList" [value]="region.id"
+                            [selected]="region.id === kubeClusterForm.controls['regionId'].value">
+                        {{region.name}}
+                    </option>
+                </select>
+            </div>
+            <ul class="parsley-errors-list filled"
+                *ngIf="kubeClusterForm.controls['regionId'].invalid && (kubeClusterForm.controls['regionId'].dirty || kubeClusterForm.controls['regionId'].touched)">
+                <li class="parsley-required" *ngIf="kubeClusterForm.controls['regionId'].errors.required">
+                    Region is required.
+                </li>
+            </ul>
+
+            <div class="row">
+                <div class="col">
+                    <label class="mt-3 mb-1">Total CPU (Core) *</label>
+                    <input formControlName="totalCPU" class="form-control" name="totalCPU" type="number"
+                           [ngClass]="{'parsley-error':!kubeClusterForm.controls['totalCPU'].valid && (kubeClusterForm.controls['totalCPU'].touched )}">
+                    <ul class="parsley-errors-list filled"
+                        *ngIf="kubeClusterForm.controls['totalCPU'].invalid && (kubeClusterForm.controls['totalCPU'].dirty || kubeClusterForm.controls['totalCPU'].touched)">
+                        <li class="parsley-required" *ngIf="kubeClusterForm.controls['totalCPU'].errors.required">
+                            Total CPU is required.
+                        </li>
+                    </ul>
+                </div>
+                <div class="col">
+                    <label class="mt-3 mb-1">Total Memory (MB) *</label>
+                    <input formControlName="totalMemory" class="form-control" name="totalMemory" type="number"
+                           [ngClass]="{'parsley-error':!kubeClusterForm.controls['totalMemory'].valid && (kubeClusterForm.controls['totalMemory'].touched )}">
+                    <ul class="parsley-errors-list filled"
+                        *ngIf="kubeClusterForm.controls['totalMemory'].invalid && (kubeClusterForm.controls['totalMemory'].dirty || kubeClusterForm.controls['totalMemory'].touched)">
+                        <li class="parsley-required" *ngIf="kubeClusterForm.controls['totalMemory'].errors.required">
+                            Total Memory is required.
+                        </li>
+                    </ul>
+                </div>
+                <div class="col">
+                    <label class="mt-3 mb-1">Total Storage (MB) *</label>
+                    <input formControlName="totalStorage" class="form-control" name="totalStorage" type="number"
+                           [ngClass]="{'parsley-error':!kubeClusterForm.controls['totalStorage'].valid && (kubeClusterForm.controls['totalStorage'].touched )}">
+                    <ul class="parsley-errors-list filled"
+                        *ngIf="kubeClusterForm.controls['totalStorage'].invalid && (kubeClusterForm.controls['totalStorage'].dirty || kubeClusterForm.controls['totalStorage'].touched)">
+                        <li class="parsley-required" *ngIf="kubeClusterForm.controls['totalStorage'].errors.required">
+                            Total Storage is required.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <label class="mt-3 mb-1">Available CPU (Core) *</label>
+                    <input formControlName="availableCPU" class="form-control" name="availableCPU" type="number"
+                           [ngClass]="{'parsley-error':!kubeClusterForm.controls['availableCPU'].valid && (kubeClusterForm.controls['availableCPU'].touched )}">
+                    <ul class="parsley-errors-list filled"
+                        *ngIf="kubeClusterForm.controls['availableCPU'].invalid && (kubeClusterForm.controls['availableCPU'].dirty || kubeClusterForm.controls['availableCPU'].touched)">
+                        <li class="parsley-required" *ngIf="kubeClusterForm.controls['availableCPU'].errors.required">
+                            Available CPU is required.
+                        </li>
+                    </ul>
+                </div>
+                <div class="col">
+                    <label class="mt-3 mb-1">Available Memory (MB) *</label>
+                    <input formControlName="availableMemory" class="form-control" name="availableMemory" type="number"
+                           [ngClass]="{'parsley-error':!kubeClusterForm.controls['availableMemory'].valid && (kubeClusterForm.controls['availableMemory'].touched )}">
+                    <ul class="parsley-errors-list filled"
+                        *ngIf="kubeClusterForm.controls['availableMemory'].invalid && (kubeClusterForm.controls['availableMemory'].dirty || kubeClusterForm.controls['availableMemory'].touched)">
+                        <li class="parsley-required" *ngIf="kubeClusterForm.controls['availableMemory'].errors.required">
+                            Available Memory is required.
+                        </li>
+                    </ul>
+                </div>
+                <div class="col">
+                    <label class="mt-3 mb-1">Available Storage (MB) *</label>
+                    <input formControlName="availableStorage" class="form-control" name="availableStorage" type="number"
+                           [ngClass]="{'parsley-error':!kubeClusterForm.controls['availableStorage'].valid && (kubeClusterForm.controls['availableStorage'].touched )}">
+                    <ul class="parsley-errors-list filled"
+                        *ngIf="kubeClusterForm.controls['availableStorage'].invalid && (kubeClusterForm.controls['availableStorage'].dirty || kubeClusterForm.controls['availableStorage'].touched)">
+                        <li class="parsley-required" *ngIf="kubeClusterForm.controls['availableStorage'].errors.required">
+                            Available Storage is required.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mt-3">
+                <mat-slide-toggle class="disable-button-container " formControlName="enabled">{{kubeClusterForm.controls.enabled.value ? "Enabled" : "Disabled"}}</mat-slide-toggle>
+            </div>
+
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-primary" (click)="submit()">{{modalActionButton}}</button>
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+</div>
+
+<!-- || kubeClusterForm.submitted -->

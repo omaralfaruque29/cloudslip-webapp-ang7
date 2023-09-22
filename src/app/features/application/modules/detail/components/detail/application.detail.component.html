@@ -1,0 +1,155 @@
+<div class="container-fluid position-relative">
+    <div class="app-create-pending-container"
+        *ngIf="!dataLoading && (application.appCreateStatus === 'PENDING' || application.appCreateStatus === 'FAILED') && application.applicationState === 'STARTING_INITIALIZATION'">
+        <h6 *ngIf="application.appCreateStatus === 'PENDING'">Your application has not been initialized yet. If you want
+            to initialize your application then click on the button below.</h6>
+        <h6 *ngIf="application.appCreateStatus === 'FAILED'" class="label-failed">Your application initialization has
+            been failed. If you want to retry initializing again then click on the button below.</h6>
+
+        <button class="btn btn-outline-primary mt-30 mr-2 btn-start-init-app" (click)="createAppTemplate()">
+            <span *ngIf="!httpRequesting">Start Initializing Application</span>
+            <div *ngIf="httpRequesting" class="lds-ellipsis">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </button>
+    </div>
+
+    <div *ngIf="!dataLoading && application.appCreateStatus === 'IN_PROGRESS' && application.applicationState === 'STARTING_INITIALIZATION'"
+        class="app-create-pending-container">
+        <h6>Your application initialization has been started. Please waRit for a while.</h6>
+        <img src="assets/images/cloud_loader.svg" />
+    </div>
+
+    <div *ngIf="!dataLoading && application.appCreateStatus === 'IN_PROGRESS' && application.applicationState === 'INITIALIZATION_RUNNING'"
+        class="app-create-pending-container">
+        <h5 *ngIf="appInitializationProgressValue < 100">Initializing Application</h5>
+        <h5 *ngIf="appInitializationProgressValue == 100">*** Application Initialized ***</h5>
+        <div class="progress-container">
+            <img *ngIf="appInitializationProgressValue < 100" src="assets/images/icon/ic_gears.svg"
+                class="app-init-running-icon" />
+            <img *ngIf="appInitializationProgressValue == 100" src="assets/images/icon/ic_success.png"
+                class="app-init-success-icon" />
+            <round-progress class="mt-20" [current]="appInitializationProgressValue" [max]="100" [radius]="80"
+                [stroke]="10" [semicircle]="false" [rounded]="true" [clockwise]="true" [responsive]="false"
+                [duration]="800" [animation]="'easeInOutQuart'" [animationDelay]="0">
+            </round-progress>
+        </div>
+
+        <p class="mt-20" *ngIf="appInitializationProgressValue == 100">Please wait, your first pipeline will start in a
+            while!</p>
+    </div>
+
+    <div *ngIf="!dataLoading && application.applicationState === 'INITIALIZATION_FAILED'">
+        <p>App Initialization Status: {{application.appCreateStatus}}</p>
+        <button class="btn btn-outline-primary mr-2" (click)="createAppTemplate()">Retry Create App Code From
+            Template</button>
+    </div>
+
+    <div *ngIf="!dataLoading && (application.applicationState === 'INITIALIZATION_SUCCESS' || application.applicationState === 'UPDATE_SUCCESS')"
+        class="row clearfix xn">
+        <div class="col-lg-12 col-md-12">
+            <div class="card default-full-height mt-4">
+                <div class="body pt-0 pb-0">
+                    <div class="block-header mb-2">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-8 col-sm-12">
+                                <h3>
+                                    <a href="javascript:void(0);"
+                                        class="btn btn-xs btn-link btn-toggle-fullwidth sidebarButtonIcon mt-0"
+                                        (click)="toggleFullWidth()">
+                                        <i class="fa fa-bars"></i>
+                                        <!-- <i class="fa fa-bars" *ngIf="!sidebarVisible"></i> -->
+                                    </a>
+                                    {{application.name}}
+                                </h3>
+                            </div>
+                            <div class="col-lg-6 col-md-8 col-sm-12">
+                                <div class="pull-right">
+                                    <div class="">
+                                        <button class="btn btn-outline-primary mr-2" (click)="syncCommits()">
+                                            <i class="icon-refresh mr-2"></i>Git Sync</button>
+                                        <button class="btn btn-outline-primary" (click)="back()">
+                                            <i class="fa fa-chevron-left mr-2"></i>Back</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="nav nav-tabs-new2" id="myTab" role="tablist">
+                        <li class="nav-item cursor-pointer">
+                            <a class="nav-link" id="commit-tab" data-toggle="tab"
+                                (click)="chageTab('commit', 'commit-tab')" role="tab" aria-controls="commit"
+                                aria-selected="true">Commits and Pipeline</a>
+                        </li>
+                        <li class="nav-item cursor-pointer">
+                            <a class="nav-link" id="env-tab" data-toggle="tab"
+                                (click)="chageTab('env', 'env-tab'); mapAutoScaleData()" role="tab" aria-controls="env"
+                                aria-selected="false">VPC Config</a>
+                        </li>
+                        <li class="nav-item cursor-pointer">
+                            <a class="nav-link" id="pipeline-setup-tab" data-toggle="tab"
+                                (click)="changeToPipelineSetup()" role="tab" aria-controls="pipeline-setup"
+                                aria-selected="false">Pipeline Setup</a>
+                        </li>
+                        <li class="nav-item cursor-pointer">
+                            <a class="nav-link" id="app-secret-tab" data-toggle="tab"
+                                (click)="chageTab('app-secret', 'app-secret-tab')" role="tab" aria-controls="app-secret"
+                                aria-selected="false">Secret Config</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content p-2" id="commitTab">
+                        <div class="tab-pane fade" id="commit" role="tabpanel" aria-labelledby="commit-tab">
+                            <app-commit-state [applicationId]="applicationId"
+                                [currentPipelineStep]="currentPipelineStep" #commitState></app-commit-state>
+                        </div>
+                        <div class="tab-pane fade" id="env" role="tabpanel" aria-labelledby="env-tab">
+                            <button class="btn btn-primary float-right mt-4" (click)="onResouceConfigsubmit()"> <i
+                                    class="fa fa-cog mt-1 pr-1"></i> Change Config</button>
+                            <app-resource-config [applicationId]="applicationId" (onSave)="onMap()" #resourceConfigForm>
+                            </app-resource-config>
+                        </div>
+                        <div class="tab-pane fade" id="pipeline-setup" role="tabpanel"
+                            aria-labelledby="pipeline-setup-tab">
+                            <app-pipeline-setup [applicationId]="applicationId" #pipe></app-pipeline-setup>
+                        </div>
+                        <div class="tab-pane fade" id="app-secret" role="tabpanel" aria-labelledby="app-secret-tab">
+                            <app-secret [applicationId]="applicationId" #appSecret></app-secret>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- </div> -->
+    </div>
+    <!-- <div class="app-initialization-log-box"
+        *ngIf="!dataLoading && (application.appCreateStatus === 'IN_PROGRESS' || application.appCreateStatus === 'COMPLETED') && 
+    (application.applicationState === 'INITIALIZATION_RUNNING' || application.applicationState === 'INITIALIZATION_SUCCESS') ">
+        <div class="app-initialization-log-box-header" (click)="toggleLogViewExpansion()">
+            <label>Console</label>
+        </div>
+        <div #appInitLogContainer class="app-initialization-log-container" [ngClass]="{'expanded': isLogViewExpanded}"
+            [innerHTML]="currentLog">
+
+        </div>
+    </div> -->
+</div>
+<div>
+    <div *ngIf="!dataLoading && (application.appCreateStatus === 'IN_PROGRESS' || application.appCreateStatus === 'COMPLETED') && 
+    (application.applicationState === 'INITIALIZATION_RUNNING' || application.applicationState === 'INITIALIZATION_SUCCESS') "
+        class="stickySideButton" (click)="toggleLogViewExpansion()">Console<i class="fa fa-terminal ml-1"></i></div>
+
+    <div class="sideConsole" [ngClass]="{'expanded': isLogViewExpanded, 'fullSize': consoleFullSize}"
+        *ngIf="!dataLoading && (application.appCreateStatus === 'IN_PROGRESS' || application.appCreateStatus === 'COMPLETED') && 
+            (application.applicationState === 'INITIALIZATION_RUNNING' || application.applicationState === 'INITIALIZATION_SUCCESS') ">
+        <div class="consoleCloseButton" *ngIf="isLogViewExpanded">
+            <button class="btn" (click)="expandConsole()"> <i *ngIf="!consoleFullSize" class="fa fa-expand"></i>
+                <i *ngIf="consoleFullSize" class="fa fa-compress"></i> </button>
+            <button class="btn" (click)="toggleLogViewExpansion()"> <i class="fa fa-times"></i> </button>
+        </div>
+        <div #appInitLogContainer class="log" [ngClass]="{'logExpanded': isLogViewExpanded}" [innerHTML]="currentLog">
+        </div>
+    </div>
+</div>

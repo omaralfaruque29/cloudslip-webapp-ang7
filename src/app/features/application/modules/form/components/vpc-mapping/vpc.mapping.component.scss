@@ -1,0 +1,41 @@
+.vpc {
+  padding: 0.5rem 2rem 0.5rem 0.8rem;
+  background: #b5c2c8;
+  border-radius: 5px;
+  color: white;
+  // box-shadow: 0px 1px 5px rgba(1,1,1,.5);
+  margin-right: 0.2rem;
+  margin-bottom: 0.2rem;
+  font-size: 12px;
+  transition: background 0.25s;
+}
+.checked {
+  background: #79dbc9 !important;
+}
+// .circle{
+//     width:10px;
+//     height: 10px;
+//     border-radius: 50%;
+//     background: red;
+// }
+
+.environmentCard {
+  min-width: 300px;
+  flex: 1;
+}
+
+@media (max-width: 830px) {
+  .environmentCard {
+    min-width: 280px;
+  }
+}
+
+.vpcCardIcon {
+  border-radius: 0.55rem 0 0 0.55rem;
+  background: #b5c2c8;
+}
+
+.checkedIcon{
+    color: #79dbc9;
+    font-size: 1.1rem;
+}

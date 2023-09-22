@@ -1,0 +1,9 @@
+.menu-section-title {
+    margin-top: 20px;
+    padding-left: 20px;
+}
+
+.menu-section-title > span {
+    font-size: 13px;
+    color: #aaaaaa;
+}

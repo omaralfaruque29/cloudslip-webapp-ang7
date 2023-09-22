@@ -1,0 +1,32 @@
+<div class="container-fluid">
+    <div class="block-header">
+        <div class="row">
+            <div class="col-lg-5 col-md-8 col-sm-12 ">
+                <h2>
+                    <a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"
+                       (click)="toggleFullWidth()">
+                        <i class="fa fa-arrow-left" *ngIf="sidebarVisible"></i>
+                        <i class="fa fa-arrow-right" *ngIf="!sidebarVisible"></i>
+                    </a>
+                    Websocket Test
+                </h2>
+                <div>
+                    <label>Target User</label>
+                    <input type="email" class="form-control" id="targetUser" required [(ngModel)]="targetUser" />
+
+                    <br/>
+
+                    <label>Message</label>
+                    <input type="text" class="form-control" id="message" required [(ngModel)]="message" />
+
+                    <br/>
+
+                    <button (click)="sendMessage()">Send</button>
+                    <button (click)="subscribe()">Subscribe</button>
+                    <button (click)="unSubscribe()">Un-Subscribe</button>
+                    <button (click)="disconnect()">Disconnect</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

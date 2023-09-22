@@ -1,0 +1,50 @@
+<div class="onboardContainer">
+    <div class="card onboardCard">
+        <div class="sideCard d-flex flex-column justify-content-center align-items-center">
+            <!-- <img class="auth-cloud-icon" src="assets/images/icon/ic_cloud_light.svg" width="120px" alt="cloudslip"> -->
+
+            <img src="../../../../assets/images/tiger-01.svg" class="tigerImg" alt="">
+            <span class="sloppyTitle text-center ">Redefine DEVOPS with <br>
+                <h5> SloppyTiger</h5>
+            </span> </div>
+        <div class="descCard d-flex flex-column justify-content-center align-items-center position-relative">
+            <div class="waiting d-flex flex-column justify-content-center align-items-center" *ngIf="waiting"
+                [@myInsertRemoveTrigger]>
+                <img width="300px" src="../../../../assets/images/calvin_hobbes.gif">
+                <p>We need some information from you to get started.</p>
+            </div>
+            <ng-container *ngIf="welcome" [@myInsertRemoveTrigger]>
+                <h2>Welcome to SloppyTiger</h2>
+                <p> Do you know what sloppytiger can do?</p>
+                <ngx-slick-carousel class="carousel textCarousel" #slickModal="slick-carousel" [config]="slideConfig"
+                    (init)="slickInit($event)">
+                    <div ngxSlickItem *ngFor="let slide of slides" class="slide">
+                        <img [src]="slide.src" width="80px" height="120px" class="pt-4" style="margin: 0 auto" alt="">
+                        <p class="text-center pt-4 mb-1">{{slide.text}}</p>
+                    </div>
+                </ngx-slick-carousel>
+                <button class="btn btn-lg btn-primary mt-4" (click)="getStart()">Get Started</button>
+            </ng-container>
+
+            <ng-container *ngIf="gitInfo" [@myInsertRemoveTrigger]>
+                <img src="../../../../assets/images/icon/git.svg" width="100px" alt="">
+                <app-git-setup (onSave)="getDockerStart()" style="width:50%"></app-git-setup>
+                <a class="cursor-pointer skipButton" (click)="skipNow()">Skip Now</a>
+                <!-- <p>We hope you don't mind. We need this information to get you onboard. You can <a href="#">Skip this
+                        now</a> though.</p> -->
+            </ng-container>
+
+            <ng-container *ngIf="dockerInfo" [@myInsertRemoveTrigger]>
+                <img src="../../../../assets/images/icon/docker.svg" width="90px" alt="">
+                <app-docker-setup style="width:50%" (onSave)="completeInitialSetup()"></app-docker-setup>
+                <a class="cursor-pointer skipButton" (click)="skipNow()">Skip Now</a>
+
+                <!-- <p>This is the last information we need, We promise! You can <a href="#">Skip this
+                        now</a> though.</p> -->
+            </ng-container>
+        </div>
+
+    </div>
+</div>
+
+<!-- <img width="100px" src="https://media.giphy.com/media/I6VPz1YmO8jte/giphy.gif"> -->

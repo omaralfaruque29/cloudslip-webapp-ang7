@@ -1,0 +1,42 @@
+<form [formGroup]="gitSettingsForm" novalidate>
+    <div class="form-group p-2">
+        <label class="mt-3 mb-1">Git Provider *</label>
+        <select class="custom-select" formControlName="gitProvider"
+            [ngClass]="{'parsley-error':!gitSettingsForm.controls['gitProvider'].valid && (gitSettingsForm.controls['gitProvider'].touched )}">
+            <option value="null">Select a git provider</option>
+            <option value="GITHUB">Github</option>
+            <option value="BITBUCKET">BitBucket</option>
+            <option value="GITLAB">GitLab</option>
+        </select>
+        <!-- <ul class="parsley-errors-list filled"
+            *ngIf="gitSettingsForm.controls['gitProvider'].invalid && (gitSettingsForm.controls['gitProvider'].dirty || gitSettingsForm.controls['gitProvider'].touched)">
+            <li class="parsley-required" *ngIf="gitSettingsForm.controls['gitProvider'].errors.required">
+                Git Provider is required.
+            </li>
+        </ul> -->
+
+        <label class="mt-3 mb-1">Git Username *</label>
+        <input formControlName="username" class="form-control"
+            [ngClass]="{'parsley-error':!gitSettingsForm.controls['username'].valid && (gitSettingsForm.controls['username'].touched )}">
+        <ul class="parsley-errors-list filled"
+            *ngIf="gitSettingsForm.controls['username'].invalid && (gitSettingsForm.controls['username'].dirty || gitSettingsForm.controls['username'].touched)">
+            <li class="parsley-required" *ngIf="gitSettingsForm.controls['username'].errors.required">
+                Git Username is required.
+            </li>
+        </ul>
+
+        <label class="mt-3 mb-1">API Token / Secret Key *</label>
+        <input formControlName="secretKey" class="form-control"
+            [ngClass]="{'parsley-error':!gitSettingsForm.controls['secretKey'].valid && (gitSettingsForm.controls['secretKey'].touched )}">
+        <ul class="parsley-errors-list filled"
+            *ngIf="gitSettingsForm.controls['secretKey'].invalid && (gitSettingsForm.controls['secretKey'].dirty || gitSettingsForm.controls['secretKey'].touched)">
+            <li class="parsley-required" *ngIf="gitSettingsForm.controls['secretKey'].errors.required">
+                API Token / Secret Key is required.
+            </li>
+        </ul>
+        <div class="mt-4">
+                <button type="button" class="btn btn-primary btn-block" (click)="saveGitInfo()">Save</button>
+            </div>
+    </div>
+
+</form>

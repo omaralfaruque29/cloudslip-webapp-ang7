@@ -1,0 +1,58 @@
+.pulse-button {
+    padding: 3% 2%;
+    // font-size: 1.3em;
+    text-transform: uppercase;
+    text-align: center;
+    // line-height: 100px;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    background: #00acc1;
+    cursor: pointer;
+    -webkit-box-shadow: 0 0 0 0 rgba(#00acc1, .5);
+            box-shadow: 0 0 0 0 rgba(#00acc1, .5);
+    -webkit-animation: pulse 1.5s infinite;
+}
+
+.pulse-button:hover {
+    -webkit-animation: none;
+}
+
+
+.actionButton{
+    -webkit-animation: visibility .75s ease-out;
+            animation: visibility .75s ease-out;
+}
+
+@-webkit-keyframes pulse {
+
+
+    70% {
+        -webkit-box-shadow: 0 0 0 50px rgba(#00acc1, 0);
+                box-shadow: 0 0 0 50px rgba(#00acc1, 0);
+    }
+
+    100% {
+        -webkit-box-shadow: 0 0 0 0 rgba(#00acc1, 0);
+                box-shadow: 0 0 0 0 rgba(#00acc1, 0);
+    }
+}
+
+@-webkit-keyframes visibility{
+    0%{ opacity: 0; }
+    100%{
+        opacity: 1;
+    }
+}
+
+@keyframes visibility{
+    0%{ opacity: 0; }
+    100%{
+        opacity: 1;
+    }
+}
+
+.img-vpc {
+    height: 70px;
+    width: auto;
+}

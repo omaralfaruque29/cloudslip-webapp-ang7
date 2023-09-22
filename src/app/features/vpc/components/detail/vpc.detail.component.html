@@ -1,0 +1,52 @@
+<div class="container-fluid" *ngIf="!dataLoading">
+    <div class="block-header mrb-10">
+        <div class="row">
+            <div class="col-lg-6 col-md-8 col-sm-12">
+                <h2>
+                    <a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"
+                       (click)="toggleFullWidth()">
+                        <i class="fa fa-arrow-left" *ngIf="sidebarVisible"></i>
+                        <i class="fa fa-arrow-right" *ngIf="!sidebarVisible"></i>
+                    </a>
+                    VPC - {{vpc.name}}
+                </h2>
+            </div>
+            <div class="col-lg-6 col-md-8 col-sm-12">
+                <a class="pull-right mt-1 mr-2" href="javascript:void(0);" (click)="back()">
+                    <i class="fa fa-chevron-left mr-2"></i>Back
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <h6 class="vpc-status-container">
+        <span class="vpc-status-title vpc-status-{{vpc.vpcStatus | lowercase}}">{{vpc.vpcStatus | titlecase}}</span>
+    </h6>
+
+    <h6>Resource Details</h6>
+    <div class="row clearfix">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="card ">
+                <div class="body pie-chart-body">
+                    <div echarts [options]="cpuChartOption"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="card ">
+                <div class="body pie-chart-body">
+                    <div echarts [options]="memoryChartOption"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="card ">
+                <div class="body pie-chart-body">
+                    <div echarts [options]="storageChartOption"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

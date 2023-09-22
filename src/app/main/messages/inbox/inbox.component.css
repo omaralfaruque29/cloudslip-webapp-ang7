@@ -1,0 +1,9 @@
+@import "../../../../assets/css/inbox.css";
+
+.mail-detail-right {
+    cursor: pointer;
+}
+
+.mail-detail-right:focus {
+    outline: none !important;
+}

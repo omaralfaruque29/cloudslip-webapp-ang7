@@ -1,0 +1,39 @@
+<div id="wrapper">
+	<div class="vertical-align-wrap">
+		<div class="vertical-align-middle auth-main">
+			<span class="sloppyTitle text-center d-none d-lg-block">Redefine <h1>DEVOPS</h1> with <br>
+				<h1> SloppyTiger</h1>
+				<img class="auth-cloud-icon" src="assets/images/icon/ic_cloud_light.svg" alt="cloudslip">
+			</span>
+
+			<div class="right-side-img-container">
+				<img class="right-side-img" src="assets/images/icon/ic_sloppy_tiger_01.png">
+			</div>
+
+			<div class="auth-box">
+				<div class="top">
+					<img src="assets/images/logo.svg" alt="SloppyTiger">
+				</div>
+				<div class="card" style="z-index:2">
+					<div class="header pb-0">
+						<p class="lead">Register</p>
+						<!-- your company -->
+					</div>
+					<div class="body">
+						<app-company-form-template #companyFormTemplate (onSave)="onSave()"></app-company-form-template>
+						<button [disabled]="companyFormTemplateComponent.companyForm.invalid" type="submit"
+							class="btn btn-primary btn-lg btn-block" (click)="submit()">REGISTER</button>
+						<span class="helper-text py-2 text-center">Already have an account? <a
+								[routerLink]="['/auth/login']">Login</a></span>
+					</div>
+					<!-- <div class="separator-linethrough"><span>OR</span></div>
+						<button class="btn btn-signin-social"><i class="fa fa-facebook-official facebook-color"></i>
+							Sign in with
+							Facebook</button>
+						<button class="btn btn-signin-social"><i class="fa fa-twitter twitter-color"></i> Sign in with
+							Twitter</button> -->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

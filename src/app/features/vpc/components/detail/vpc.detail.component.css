@@ -1,0 +1,32 @@
+.env-name {
+    margin-left: 32px;
+    margin-top: -10px;
+    color: #888;
+}
+
+.pie-chart-body {
+    max-height: 300px !important;
+}
+
+.vpc-status-container {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.vpc-status-title {
+    padding: 7px 25px;
+    border-radius: 50px;
+    color: #fff;
+}
+
+.vpc-status-initializing {
+    background: #64B5F6;
+}
+
+.vpc-status-initialized {
+    background: #4DB6AC;
+}
+
+.vpc-status-initialization_failed, .vpc-status-terminating, vpc-status-terminated, vpc-status-termination_failed {
+    background: #ef5350;
+}

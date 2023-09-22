@@ -1,0 +1,11 @@
+export const SET_ENVIRONMENT_OPTIONS_FOR_COMPANY = 'api/company-environment/set-environments';
+export const GET_ENVIRONMENT_OPTIONS_LIST = 'api/environment-option/get-list?fetchMode=ALL';
+export const GET_ENVIRONMENT_OPTIONS_FOR_COMPANY = 'api/company-environment/get-list';
+export const DELETE_ENVIRONMENT_CLUSTER_FOR_COMPANY = 'api/company-environment/';
+export const SET_ENVIRONMENT_CLUSTER_OPTIONS_FOR_COMPANY = 'api/company-environment/set-cluster';
+export const DELETE_CLUSTER = '/delete-cluster/';
+export const ADD_ENVIRONMENT_TO_APPLICATION = 'api/app-env/add-environments';
+export const GET_APPLICATION_ENVIRONMENTS = 'api/app-env/get-environments';
+export const GET_SELECTED_CLUSTER_OPTION_LIST = 'api/company-environment/get/';
+export const GET_ENVIRONMENT_CLUSTER_OPTIONS_FOR_COMPANY = 'api/cluster-option/get-cluster-option/';
+export const GET_APP_VPC_LIST = 'api/app-vpc/get-list';

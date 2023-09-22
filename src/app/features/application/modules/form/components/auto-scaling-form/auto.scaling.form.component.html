@@ -1,0 +1,121 @@
+<div>
+    <form [formGroup]="autoScalingForm">
+        <div class="row">
+            <div class="col-md-3">
+                <label class=" mb-1">CPU (Core) * </label>
+                <ng5-slider formControlName="maxCpu" *ngIf="autoScalingForm"  [(value)]="autoScalingForm.controls.maxCpu.value" [options]="minCPUoptions"></ng5-slider>
+
+                <ul class="parsley-errors-list filled"
+                    *ngIf="autoScalingForm.controls['maxCpu'].invalid && (autoScalingForm.controls['maxCpu'].dirty || autoScalingForm.controls['maxCpu'].touched)">
+                    <li class="parsley-required" *ngIf="autoScalingForm.controls['maxCpu'].errors.required">CPU is
+                        required.
+                    </li>
+                </ul>
+                <ul class="parsley-errors-list filled">
+                <li class="parsley-required" *ngIf="vpcAvaliableResource.availableCPU===0">Required resource unavailable</li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <label class=" mb-1">Memory (GB) *</label>
+                <ng5-slider formControlName="maxMemory" *ngIf="autoScalingForm" [(value)]="autoScalingForm.controls.maxMemory.value" [options]="maxRamOptions"></ng5-slider>
+                <ul class="parsley-errors-list filled"
+                    *ngIf="autoScalingForm.controls['maxMemory'].invalid && (autoScalingForm.controls['maxMemory'].dirty || autoScalingForm.controls['maxMemory'].touched)">
+                    <li class="parsley-required" *ngIf="autoScalingForm.controls['maxMemory'].errors.required">Memory is
+                        required.</li>
+                </ul>
+                <ul class="parsley-errors-list filled">
+                    <li class="parsley-required" *ngIf="vpcAvaliableResource.availableMemory===0">Required resource unavailable</li>
+                    </ul>
+            </div>
+            <div class="col-md-3">
+                <label class=" mb-1">Storage (GB) *</label>
+                <ng5-slider formControlName="maxStorage" *ngIf="autoScalingForm"
+                    [(value)]="autoScalingForm.controls.maxStorage.value" [options]="maxStorageOptions">
+                </ng5-slider>
+                <ul class="parsley-errors-list filled"
+                    *ngIf="autoScalingForm.controls['maxStorage'].invalid && (autoScalingForm.controls['maxStorage'].dirty || autoScalingForm.controls['maxStorage'].touched)">
+                    <li class="parsley-required" *ngIf="autoScalingForm.controls['maxStorage'].errors.required">Storage
+                        is
+                        required.
+                    </li>
+                </ul>
+                <ul class="parsley-errors-list filled">
+                    <li class="parsley-required" *ngIf="vpcAvaliableResource.availableStorage===0">Required resource unavailable</li>
+                    </ul>
+            </div>
+            <div class="col-md-3" *ngIf="!autoScalingForm.controls.autoScalingEnabled.value">
+                <label class=" mb-1">Desired Number of Instance *</label>
+                <ng5-slider formControlName="desiredNumberOfInstance"
+                    [(value)]="autoScalingForm.controls.desiredNumberOfInstance.value" [options]="instanceOptions">
+                </ng5-slider>
+                <ul class="parsley-errors-list filled"
+                    *ngIf="autoScalingForm.controls['desiredNumberOfInstance'].invalid && (autoScalingForm.controls['desiredNumberOfInstance'].dirty || autoScalingForm.controls['desiredNumberOfInstance'].touched)">
+                    <li class="parsley-required"
+                        *ngIf="autoScalingForm.controls['desiredNumberOfInstance'].errors.minValue">Instance number must
+                        be greater than 0
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-3" *ngIf="autoScalingForm.controls.autoScalingEnabled.value">
+                <label class=" mb-1">Min and Max Number of Instance</label>
+                <ng5-slider [(value)]="autoScalingForm.controls.minNumOfInstance.value"
+                    [(highValue)]="autoScalingForm.controls.maxNumOfInstance.value" (userChange)="onMinMaxInstanceChange()" [options]="instanceOptions">
+                </ng5-slider>
+                <ul class="parsley-errors-list filled"
+                    *ngIf="autoScalingForm.controls['minNumOfInstance'].invalid">
+                    <li class="parsley-required"
+                        *ngIf="autoScalingForm.controls['minNumOfInstance'].errors.minValue">Instance number must
+                        be greater than 0
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-3" *ngIf="autoScalingChecker">
+                <label class=" mb-1">CPU Threshold</label>
+                <ng5-slider formControlName="cpuThreshold" [(value)]="autoScalingForm.controls.cpuThreshold.value"
+                    [options]="cpuThresholdOptions"></ng5-slider>
+
+                <ul class="parsley-errors-list filled"
+                    *ngIf="autoScalingForm.controls['cpuThreshold'].invalid && (autoScalingForm.controls['cpuThreshold'].dirty || autoScalingForm.controls['cpuThreshold'].touched)">
+                    <li class="parsley-required" *ngIf="autoScalingForm.controls['cpuThreshold'].errors.required">
+                        CPU Threshold is required.
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-3" *ngIf="autoScalingChecker">
+                <label class=" mb-1">Transaction Per Second Threshold</label>
+
+                <ng5-slider formControlName="transactionPerSecondThreshold"
+                    [(value)]="autoScalingForm.controls.transactionPerSecondThreshold.value"
+                    [options]="transactionPerSecondThresholdOptions"></ng5-slider>
+
+                <ul class="parsley-errors-list filled"
+                    *ngIf="autoScalingForm.controls['transactionPerSecondThreshold'].invalid && (autoScalingForm.controls['transactionPerSecondThreshold'].dirty || autoScalingForm.controls['transactionPerSecondThreshold'].touched)">
+                    <li class="parsley-required"
+                        *ngIf="autoScalingForm.controls['transactionPerSecondThreshold'].errors.required">
+                        Transaction Per Second Threshold is required.
+                    </li>
+                </ul>
+            </div>
+
+            <!-- <div class="row mt-4"> -->
+            <div class="col-md-3  d-flex align-items-end justify-content-start">
+                <div class="fancy-checkbox mt-2">
+                    <label>
+                        <input type="checkbox" formControlName="autoScalingEnabled" [checked]="autoScalingChecker"
+                            [(ngModel)]="autoScalingChecker" (change)="changeAutoScalingValidation()">
+                        <span>Enable Auto Scaling</span>
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-3 d-flex align-items-end justify-content-start">
+                <div class="fancy-checkbox">
+                    <label>
+                        <input type="checkbox" formControlName="canaryDeploymentEnabled" [checked]="autoScalingForm.controls.canaryDeploymentEnabled.value">
+                        <span>Canary Deployment</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+    </form>
+    </div>

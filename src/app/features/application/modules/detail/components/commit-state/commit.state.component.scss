@@ -1,0 +1,191 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro&display=swap');
+
+.logModal{
+    // max-height: 80vh;
+    min-width: 600px;
+    overflow: scroll;
+    font-family: 'Source Code Pro', monospace !important;
+}
+
+.modal-header{
+    padding: 0.7rem 1rem;
+}
+
+.commit-list-container {
+  overflow-y: auto;
+  max-height: 520px;
+  text-overflow: ellipsis;
+}
+
+.commit-list-container::-webkit-scrollbar-track
+{
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
+  background-color: #F5F5F5;
+}
+
+.commit-list-container::-webkit-scrollbar
+{
+  width: 6px;
+  height: 6px;
+  background-color: #F5F5F5;
+}
+
+.commit-list-container::-webkit-scrollbar-thumb
+{
+  background-color: #777777;
+}
+.listActive::before{
+    content: '';
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    width:5px;
+    background: #45e5c3;
+}
+
+.listRunning::before{
+    content: '';
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    width:5px;
+    // background: #45e5c3;
+    background-image:
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent .3rem,
+      #45e5c3 .2rem,
+      #45e5c3 1rem
+    );
+  background-size: 200% 200%;
+  animation: barberpole 10s linear infinite;
+}
+
+@keyframes barberpole {
+    100% {
+      background-position: 100% 100%;
+    }
+  }
+
+  .retry:hover{
+    color: #49c5b6 !important;
+    .icon-check:before {
+        content: "\e099",
+    }
+    .icon-hourglass:before{
+      content: "\e099",
+    }
+  }
+
+  @keyframes glowing {
+    0% { box-shadow: 0 0 -5px #49c5b6; }
+    40% { box-shadow: 0 0 10px #49c5b6; }
+    60% { box-shadow: 0 0 10px #49c5b6; }
+    100% { box-shadow: 0 0 -5px #49c5b6; }
+  }
+  
+  .step-glow {
+    animation: glowing 1000ms infinite;
+  }
+
+.text-commit-message {
+  width: 250px;
+  font-size: 13px !important;
+}
+
+.text-commit-id {
+  font-size: 11px !important;
+  color: #777;
+  margin-top: 5px;
+  width: 250px;
+}
+
+.text-commit-date {
+  color: #777;
+  width: 250px;
+}
+
+.environment-title-container {
+  margin-top: 1rem;
+  margin-bottom: 2.2rem;
+}
+
+.environment-name-title {
+  font-size: 15px;
+  background-color: #4996A2;
+  color: #ffffff;
+  padding: 7px 15px;
+  border-radius: 50px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.commit-list-window {
+  flex: 1;
+  border: 1px solid #dfdfdf;
+  border-right: 3px solid #dfdfdf;
+  border-top: none !important;
+}
+
+.commit-list-window .list-group-item {
+  border: none !important;
+  border-bottom: 1px solid #dfdfdf !important;
+  border-radius: 0px !important;
+}
+
+.pipeline-window {
+  padding-top: 10px;
+  border-right: 1px solid #dfdfdf;
+  border-bottom: 1px solid #dfdfdf;
+}
+
+.step-name {
+  font-size: 12px;
+}
+
+.dropdown-item-text {
+  font-size: 13px !important;
+}
+
+.ic-deploy-success {
+  width: 47px;
+  height: auto;
+  margin-top: -9px;
+  margin-right: -10px;
+}
+
+.pipeline-step-details-container {
+  position: fixed;
+  display: none;
+  width: calc(100% - 60px);
+  height: 200px;
+  right: 30px;
+  left: 30px;
+  bottom: 0;
+  background-color: white;
+  border: 1px solid #f0f0f0;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.10), 0 1px 1px rgba(0,0,0,0.15);
+  transition: all 0.3s ease-in-out;
+}
+
+.pipeline-step-details-container.visible {
+  display: block;
+}
+
+.pipeline-step-details-container.side-bar-visible {
+  width: calc(100% - 270px) !important;
+  left: 240px;
+  transition: all 0.3s ease-in-out;
+}
+
+.pipeline-step-details-container > .close-button {
+  position: absolute;
+  top: -8px;
+  right: -5px;
+  font-size: 25px;
+  font-weight: 100;
+  z-index: 10;
+}

@@ -1,0 +1,158 @@
+<div class="modal-header">
+    <h6 class="modal-title">Set Checklist for {{envName}} Environment</h6>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body {{themeClass}} {{smallScreenMenu}}">
+    <div class="col-sm-12 modal-min-height">
+        <!--<table class="table table-borderless table-hover">
+            <thead>
+                <th>Check Item Text</th>
+                <th>Authority</th>
+                <th></th>
+            </thead>
+
+            <tbody *ngIf="checkListData != null">
+                <tr *ngFor="let checkItem of checkListData.checklist">
+                    <td>{{checkItem.message}}</td>
+                    <td>{{checkItem.message}}</td>
+                    <td class="project-actions">
+                        <div class="input-group">
+                            <div class="input-group" ngbDropdown>
+                                <button class="btn dropdown-toggle p-0" type="button"
+                                        ngbDropdownToggle></button>
+                                <div class="dropdown-menu" ngbDropdownMenu>
+                                    <a class="dropdown-item">Edit</a>
+                                    <a class="dropdown-item">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>-->
+
+        <div class="row">
+            <div class="col-7">
+                <p class="check-item-table-title">Check Item Text</p>
+            </div>
+            <div class="col-4">
+                <p class="check-item-table-title">Authority</p>
+            </div>
+            <div class="col-1">
+
+            </div>
+        </div>
+
+        <div *ngIf="checkListData != null">
+            <div *ngFor="let checkItem of checkListData.checklist; let i = index">
+                <div class="row mt-2" *ngIf="!checkItem.editMode === true">
+                    <div class="col-7">
+                        <p>{{checkItem.message}}</p>
+                    </div>
+                    <div class="col-4">
+                        <p>{{checkItem.authority | formatAuthorityList}}</p>
+                    </div>
+                    <div class="col-1">
+                        <div class="input-group">
+                            <div class="input-group" ngbDropdown>
+                                <button class="btn dropdown-toggle p-0" type="button"
+                                        ngbDropdownToggle></button>
+                                <div class="dropdown-menu" ngbDropdownMenu>
+                                    <a class="dropdown-item" (click)="initEditCheckItemForm(i)"><i class="icon-pencil"></i>&nbsp;&nbsp;&nbsp;Edit</a>
+                                    <a class="dropdown-item" (click)="deleteChecklistItem(checkItem.id, i)"><i class="icon-trash"></i>&nbsp;&nbsp;&nbsp;Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="checkItem.editMode === true">
+                    <form [formGroup]="editCheckItemForm" (ngSubmit)='updateChecklistItem()' novalidate>
+                        <div class="row mt-1">
+                            <div class="col-7">
+                                <input formControlName="message" class="form-control " name="text" placeholder="Text" (keydown)="onEditInputKeydown($event)"
+                                       [ngClass]="{'parsley-error':!editCheckItemForm.controls['message'].valid && (editCheckItemForm.controls['message'].touched )}">
+                                <ul class="parsley-errors-list filled"
+                                    *ngIf="editCheckItemForm.controls['message'].invalid && (editCheckItemForm.controls['message'].dirty || editCheckItemForm.controls['message'].touched)">
+                                    <li class="parsley-required" *ngIf="editCheckItemForm.controls['message'].errors.required">
+                                        This is required.
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-4">
+                                <ng-multiselect-dropdown [placeholder]="'None Selected'" [data]="authorityList"
+                                                         formControlName="authorities" [settings]="dropdownSettings"
+                                                         [ngClass]="{'parsley-error':!editCheckItemForm.controls['authorities'].valid && (editCheckItemForm.controls['authorities'].touched )}">
+                                </ng-multiselect-dropdown>
+                                <ul class="parsley-errors-list filled"
+                                    *ngIf="editCheckItemForm.controls['authorities'].invalid && (editCheckItemForm.controls['authorities'].dirty || editCheckItemForm.controls['authorities'].touched)">
+                                    <li class="parsley-required" *ngIf="editCheckItemForm.controls['authorities'].errors.required">
+                                        This is required.
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-1">
+                                <button class="btn btn-outline-info" type="submit"><i class="fa fa-check"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <form [formGroup]="newCheckItemForm" (ngSubmit)='addToChecklist()' novalidate>
+
+            <div class="row mt-2">
+                <div class="col-7">
+                    <input formControlName="message" class="form-control " name="text" placeholder="Add New Check Item Here"
+                           [ngClass]="{'parsley-error':!newCheckItemForm.controls['message'].valid && (newCheckItemForm.controls['message'].touched )}">
+                    <ul class="parsley-errors-list filled"
+                        *ngIf="newCheckItemForm.controls['message'].invalid && (newCheckItemForm.controls['message'].dirty || newCheckItemForm.controls['message'].touched)">
+                        <li class="parsley-required" *ngIf="newCheckItemForm.controls['message'].errors.required">
+                            This is required.
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-4">
+                    <ng-multiselect-dropdown [placeholder]="'None Selected'" [data]="authorityList"
+                                             formControlName="authorities" [settings]="dropdownSettings"
+                                             [ngClass]="{'parsley-error':!newCheckItemForm.controls['authorities'].valid && (newCheckItemForm.controls['authorities'].touched )}">
+                    </ng-multiselect-dropdown>
+                    <ul class="parsley-errors-list filled"
+                        *ngIf="newCheckItemForm.controls['authorities'].invalid && (newCheckItemForm.controls['authorities'].dirty || newCheckItemForm.controls['authorities'].touched)">
+                        <li class="parsley-required" *ngIf="newCheckItemForm.controls['authorities'].errors.required">
+                            This is required.
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-1">
+                    <button class="btn btn-outline-info" type="submit"><i class="fa fa-check"></i></button>
+                </div>
+            </div>
+
+        </form>
+
+        <!--<div class="row">
+            <div class="col-md-7">
+                <label class="mt-3 mb-1">Check Item Text</label>
+                <input formControlName="message" class="form-control" name="text" placeholder="Text">
+            </div>
+            <div class="col-md-3">
+                <label class="mt-3 mb-1">Who Can Check?</label>
+                <select class="custom-select" formControlName="authority" id="inputGroupSelect01">
+                    <option value="ROLE_ADMIN" selected>Admin</option>
+                    <option value="ROLE_OPS">Ops</option>
+                    <option value="ROLE_DEV">Dev</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+
+            </div>
+
+        </div>-->
+    </div>
+    <div class="col-sm-12">
+        <button class="btn btn-outline-dark pull-right my-4 " (click)="activeModal.dismiss('Cross click')">Close</button>
+    </div>
+</div>

@@ -1,0 +1,135 @@
+<div class="container-fluid">
+    <div class="block-header">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <h2>
+                    <a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"
+                       (click)="toggleFullWidth()">
+                        <i class="fa fa-arrow-left" *ngIf="sidebarVisible"></i>
+                        <i class="fa fa-arrow-right" *ngIf="!sidebarVisible"></i>
+                    </a>
+                    General Settings
+                </h2>
+            </div>
+        </div>
+
+        <div class="row clearfix mt-3">
+            <div class="col-md-5 card p-4">
+                <h6 class="card-title">Git Information</h6>
+                <div class="line-divider"></div>
+                <form [formGroup]="gitSettingsForm" novalidate>
+                    <div class="form-group p-2">
+                        <label class="mt-3 mb-1">Git Provider *</label>
+                        <select class="custom-select" formControlName="gitProvider" id="inputGroupSelect01"
+                                [ngClass]="{'parsley-error':!gitSettingsForm.controls['gitProvider'].valid && (gitSettingsForm.controls['gitProvider'].touched )}">
+                            <!-- <option selected>Choose...</option> -->
+                            <option value="GITHUB">Github</option>
+                            <option value="BITBUCKET">BitBucket</option>
+                            <option value="GITLAB">GitLab</option>
+                        </select>
+                        <ul class="parsley-errors-list filled"
+                            *ngIf="gitSettingsForm.controls['gitProvider'].invalid && (gitSettingsForm.controls['gitProvider'].dirty || gitSettingsForm.controls['gitProvider'].touched)">
+                            <li class="parsley-required" *ngIf="gitSettingsForm.controls['gitProvider'].errors.required">
+                                Git Provider is required.
+                            </li>
+                        </ul>
+
+                        <label class="mt-3 mb-1">Git Username *</label>
+                        <input formControlName="username" class="form-control"
+                               [ngClass]="{'parsley-error':!gitSettingsForm.controls['username'].valid && (gitSettingsForm.controls['username'].touched )}">
+                        <ul class="parsley-errors-list filled"
+                            *ngIf="gitSettingsForm.controls['username'].invalid && (gitSettingsForm.controls['username'].dirty || gitSettingsForm.controls['username'].touched)">
+                            <li class="parsley-required" *ngIf="gitSettingsForm.controls['username'].errors.required">
+                                Git Username is required.
+                            </li>
+                        </ul>
+
+                        <label class="mt-3 mb-1">API Token / Secret Key *</label>
+                        <input formControlName="secretKey" class="form-control"
+                               [ngClass]="{'parsley-error':!gitSettingsForm.controls['secretKey'].valid && (gitSettingsForm.controls['secretKey'].touched )}">
+                        <ul class="parsley-errors-list filled"
+                            *ngIf="gitSettingsForm.controls['secretKey'].invalid && (gitSettingsForm.controls['secretKey'].dirty || gitSettingsForm.controls['secretKey'].touched)">
+                            <li class="parsley-required" *ngIf="gitSettingsForm.controls['secretKey'].errors.required">
+                                API Token / Secret Key is required.
+                            </li>
+                        </ul>
+
+                    </div>
+                </form>
+                <div class="modal-footer mt-2">
+                    <button type="button" class="btn btn-outline-primary" (click)="saveGitInfo()">Save</button>
+                </div>
+            </div>
+
+
+            <div class="col-md-5 card p-4">
+                <h6 class="card-title">Docker Registry Information</h6>
+                <div class="line-divider"></div>
+                <form [formGroup]="dockerHubSettingsForm"  novalidate>
+                    <div class="form-group p-2">
+                        <label class="mt-3 mb-1">Registry Type *</label>
+                        <select formControlName="dockerRegistryType" class="form-control"
+                               [ngClass]="{'parsley-error':!dockerHubSettingsForm.controls['dockerRegistryType'].valid && (dockerHubSettingsForm.controls['dockerRegistryType'].touched )}" required>
+                            <option value="DOCKER_HUB">Docker Hub</option>
+                            <option value="CUSTOM">Custom</option>
+                        </select>
+                        <ul class="parsley-errors-list filled"
+                            *ngIf="dockerHubSettingsForm.controls['dockerRegistryType'].invalid && (dockerHubSettingsForm.controls['dockerRegistryType'].dirty || dockerHubSettingsForm.controls['dockerRegistryType'].touched)">
+                            <li class="parsley-required" *ngIf="dockerHubSettingsForm.controls['dockerRegistryType'].errors.required">
+                                Registry Type is required.
+                            </li>
+                        </ul>
+
+                        <div *ngIf="dockerHubSettingsForm.value.dockerRegistryType == 'CUSTOM'">
+                            <label class="mt-3 mb-1">Registry Server *</label>
+                            <input formControlName="dockerRegistryServer" class="form-control"
+                                   [ngClass]="{'parsley-error':!dockerHubSettingsForm.controls['dockerRegistryServer'].valid && (dockerHubSettingsForm.controls['dockerRegistryServer'].touched )}">
+                            <ul class="parsley-errors-list filled"
+                                *ngIf="dockerHubSettingsForm.controls['dockerRegistryServer'].invalid && (dockerHubSettingsForm.controls['dockerRegistryServer'].dirty || dockerHubSettingsForm.controls['dockerRegistryServer'].touched)">
+                                <li class="parsley-required" *ngIf="dockerHubSettingsForm.controls['dockerRegistryServer'].errors.required">
+                                    Registry Server Address is required.
+                                </li>
+                            </ul>
+                        </div>
+
+                        <label class="mt-3 mb-1">Username *</label>
+                        <input formControlName="dockerhubId" class="form-control"
+                               [ngClass]="{'parsley-error':!dockerHubSettingsForm.controls['dockerhubId'].valid && (dockerHubSettingsForm.controls['dockerhubId'].touched )}">
+                        <ul class="parsley-errors-list filled"
+                            *ngIf="dockerHubSettingsForm.controls['dockerhubId'].invalid && (dockerHubSettingsForm.controls['dockerhubId'].dirty || dockerHubSettingsForm.controls['dockerhubId'].touched)">
+                            <li class="parsley-required" *ngIf="dockerHubSettingsForm.controls['dockerhubId'].errors.required">
+                                Username is required.
+                            </li>
+                        </ul>
+
+                        <label class="mt-3 mb-1">Email *</label>
+                        <input formControlName="dockerhubEmail" type="email" class="form-control"
+                               [ngClass]="{'parsley-error':!dockerHubSettingsForm.controls['dockerhubEmail'].valid && (dockerHubSettingsForm.controls['dockerhubEmail'].touched )}">
+                        <ul class="parsley-errors-list filled"
+                            *ngIf="dockerHubSettingsForm.controls['dockerhubPassword'].invalid && (dockerHubSettingsForm.controls['dockerhubEmail'].dirty || dockerHubSettingsForm.controls['dockerhubEmail'].touched)">
+                            <li class="parsley-required" *ngIf="dockerHubSettingsForm.controls['dockerhubEmail'].errors.required">
+                                Email is required.
+                            </li>
+                        </ul>
+
+                        <label class="mt-3 mb-1">Password *</label>
+                        <input formControlName="dockerhubPassword" type="password" class="form-control"
+                               [ngClass]="{'parsley-error':!dockerHubSettingsForm.controls['dockerhubPassword'].valid && (dockerHubSettingsForm.controls['dockerhubPassword'].touched )}">
+                        <ul class="parsley-errors-list filled"
+                            *ngIf="dockerHubSettingsForm.controls['dockerhubPassword'].invalid && (dockerHubSettingsForm.controls['dockerhubPassword'].dirty || dockerHubSettingsForm.controls['dockerhubPassword'].touched)">
+                            <li class="parsley-required" *ngIf="dockerHubSettingsForm.controls['dockerhubPassword'].errors.required">
+                                Password is required.
+                            </li>
+                        </ul>
+
+                    </div>
+                </form>
+                <div class="modal-footer mt-4">
+                    <button type="button" class="btn btn-outline-primary" (click)="saveDockerHubInfo()">Save</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,97 @@
+<form [formGroup]="companyForm" (ngSubmit)='submit()' novalidate>
+
+    <div class="form-group p-2">
+        <label class=" mb-1">Name *</label>
+        <input formControlName="name" class="form-control" name="text"
+            [ngClass]="{'parsley-error':!companyForm.controls['name'].valid && (companyForm.controls['name'].touched )}">
+        <ul class="parsley-errors-list filled"
+            *ngIf="companyForm.controls['name'].invalid && (companyForm.controls['name'].dirty || companyForm.controls['name'].touched)">
+            <li class="parsley-required" *ngIf="companyForm.controls['name'].errors.required">Name is
+                required.
+            </li>
+        </ul>
+        <div class="row">
+            <div class="col">
+                <label class="mt-3 mb-1">Email *</label>
+                <input formControlName="businessEmail" class="form-control" name="businessEmail" type="email"
+                    [ngClass]="{'parsley-error':!companyForm.controls['businessEmail'].valid && (companyForm.controls['businessEmail'].touched )}">
+                <ul class="parsley-errors-list filled"
+                    *ngIf="companyForm.controls['businessEmail'].invalid && (companyForm.controls['businessEmail'].dirty || companyForm.controls['businessEmail'].touched)">
+                    <li class="parsley-required" *ngIf="companyForm.controls['businessEmail'].errors.required">
+                        Email is required.
+                    </li>
+                </ul>
+            </div>
+            <!-- <div class="col" *ngIf="modalActionButton==='Create'">
+                <label class="mt-3 mb-1">Admin Email *</label>
+                <input formControlName="adminEmail" class="form-control" name="adminEmail" type="email"
+                    [ngClass]="{'parsley-error':!companyForm.controls['adminEmail'].valid && (companyForm.controls['adminEmail'].touched )}">
+                <ul class="parsley-errors-list filled"
+                    *ngIf="companyForm.controls['adminEmail'].invalid && (companyForm.controls['adminEmail'].dirty || companyForm.controls['adminEmail'].touched)">
+                    <li class="parsley-required" *ngIf="companyForm.controls['adminEmail'].errors.required">Admin
+                        Email is required.
+                    </li>
+                </ul>
+            </div> -->
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <label class="mt-3 mb-1">Website</label>
+                <input formControlName="website" class="form-control" name="website">
+            </div>
+            <div class="col">
+                <label class="mt-3 mb-1">Phone No</label>
+                <input formControlName="phoneNo" class="form-control" name="phoneNo"
+                    >
+                    <!-- [ngClass]="{'parsley-error':!companyForm.controls['phoneNo'].valid && (companyForm.controls['phoneNo'].touched )}" -->
+                <!-- <ul class="parsley-errors-list filled"
+                    *ngIf="companyForm.controls['phoneNo'].invalid && (companyForm.controls['phoneNo'].dirty || companyForm.controls['phoneNo'].touched)">
+                    <li class="parsley-required" *ngIf="companyForm.controls['phoneNo'].errors.required">Phone No is
+                        required.
+                    </li>
+                </ul> -->
+            </div>
+        </div>
+        <!-- <label class="mt-3 mb-1">Base Domain *</label>
+        <input formControlName="baseDomain" class="form-control" name="baseDomain"
+            [ngClass]="{'parsley-error':!companyForm.controls['baseDomain'].valid && (companyForm.controls['baseDomain'].touched )}">
+        <ul class="parsley-errors-list filled"
+            *ngIf="companyForm.controls['baseDomain'].invalid && (companyForm.controls['baseDomain'].dirty || companyForm.controls['baseDomain'].touched)">
+            <li class="parsley-required" *ngIf="companyForm.controls['baseDomain'].errors.required">Base Domain is
+                required.
+            </li>
+        </ul> -->
+        <label class="mt-3 mb-1">Password *</label>
+        <input formControlName="password" class="form-control" name="password" type="password"
+            [ngClass]="{'parsley-error':!companyForm.controls['password'].valid && (companyForm.controls['password'].touched )}">
+        <ul class="parsley-errors-list filled"
+            *ngIf="companyForm.controls['password'].invalid && (companyForm.controls['password'].dirty || companyForm.controls['password'].touched)">
+            <li class="parsley-required" *ngIf="companyForm.controls['password'].errors.required">Password is
+                required.
+            </li>
+            <li class="parsley-required" *ngIf="companyForm.controls['password'].errors.minlength">Password must be 8 characters long.
+            </li>
+        </ul>
+
+        <!-- <div class="form-group"> -->
+        <label for="confPassword" class="mt-3 mb-1">Confirm Password</label>
+        <input type="password" class="form-control" id="confPassword" [(ngModel)]="confirmPassword"
+            [ngModelOptions]="{standalone: true}" (input)="matchPassword()"
+            [ngClass]="{'parsley-error': passwordMatchChecker}">
+        <ul class="parsley-errors-list filled" *ngIf="passwordMatchChecker">
+            <li class="parsley-required" *ngIf="passwordMatchChecker">Password doesn't match
+            </li>
+        </ul>
+        <!-- </div> -->
+        <label class="mt-3 mb-1">Address</label>
+        <input formControlName="address" class="form-control" name="address"
+            [ngClass]="{'parsley-error':!companyForm.controls['address'].valid && (companyForm.controls['address'].touched )}">
+        <ul class="parsley-errors-list filled"
+            *ngIf="companyForm.controls['address'].invalid && (companyForm.controls['address'].dirty || companyForm.controls['address'].touched)">
+            <li class="parsley-required" *ngIf="companyForm.controls['address'].errors.required">Address is
+                required.
+            </li>
+        </ul>
+    </div>
+</form>

@@ -1,0 +1,61 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{modalHeader}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body {{themeClass}} {{smallScreenMenu}}">
+    <form [formGroup]="userForm" (ngSubmit)='submit()' novalidate>
+
+        <div class="form-group p-2">
+            <label class="mt-3 mb-1">First Name *</label>
+            <input formControlName="firstName" class="form-control" name="text"
+                [ngClass]="{'parsley-error':!userForm.controls['firstName'].valid && (userForm.controls['firstName'].touched )}">
+            <ul class="parsley-errors-list filled"
+                *ngIf="userForm.controls['firstName'].invalid && (userForm.controls['firstName'].dirty || userForm.controls['firstName'].touched)">
+                <li class="parsley-required" *ngIf="userForm.controls['firstName'].errors.required">First Name is
+                    required.
+                </li>
+            </ul>
+            <label class="mt-3 mb-1">Last Name*</label>
+            <input formControlName="lastName" class="form-control" name="lastName"
+                [ngClass]="{'parsley-error':!userForm.controls['lastName'].valid && (userForm.controls['lastName'].touched )}">
+            <ul class="parsley-errors-list filled"
+                *ngIf="userForm.controls['lastName'].invalid && (userForm.controls['lastName'].dirty || userForm.controls['lastName'].touched)">
+                <li class="parsley-required" *ngIf="userForm.controls['lastName'].errors.required">Last name is
+                    required.
+                </li>
+            </ul>
+            <label class="mt-3 mb-1">Email *</label>
+            <input formControlName="username" class="form-control" name="username" type="email"
+                [ngClass]="{'parsley-error':!userForm.controls['username'].valid && (userForm.controls['username'].touched )}">
+            <ul class="parsley-errors-list filled"
+                *ngIf="userForm.controls['username'].invalid && (userForm.controls['username'].dirty || userForm.controls['username'].touched)">
+                <li class="parsley-required" *ngIf="userForm.controls['username'].errors.required">User name is
+                    required.
+                </li>
+            </ul>
+            <div class="fancy-checkbox mr-0 " *ngIf="userId">
+                <label class="mt-3 mb-0"><input formControlName="enabled" [checked]="userForm.controls.enabled.value"
+                        type="checkbox"><span></span>User Enabled</label>
+            </div>
+            <label class="mt-3 mb-1">Authorities *</label>
+            <ng-multiselect-dropdown [placeholder]="'None Selected'" [data]="authorityList"
+                formControlName="authorities" [settings]="dropdownSettings"
+                [ngClass]="{'parsley-error':!userForm.controls['authorities'].valid && (userForm.controls['authorities'].touched )}">
+            </ng-multiselect-dropdown>
+            <ul class="parsley-errors-list filled"
+                *ngIf="userForm.controls['authorities'].invalid && (userForm.controls['authorities'].dirty || userForm.controls['authorities'].touched)">
+                <li class="parsley-required" *ngIf="userForm.controls['authorities'].errors.required">Authorities is
+                    required.
+                </li>
+            </ul>
+
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-primary" (click)="submit()">{{modalActionButton}}</button>
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+</div>
+<!-- || userForm.submitted -->

@@ -1,0 +1,116 @@
+<div class="modal-header">
+    <h4 class="modal-title">Update Successor ({{currentPipelineStep.name}})</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body {{themeClass}} {{smallScreenMenu}}">
+    <!-- <h5 class="text-center">Pipeline Step Name: {{currentPipelineStep.name}}</h5> -->
+    <div class="row p-4">
+        <div class="col-md-5 border rounded p-2 d-flex justify-content-center flex-column">
+            <h6 class="text-center p-2">Available steps</h6>
+            <p class="text-center p-2" *ngIf="newSuccessorOptions.length<=0"> No steps are available to add as
+                successor.
+            </p>
+            <div class="table-responsive" *ngIf="newSuccessorOptions.length>0">
+                <table class="table m-b-0 table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>
+                                <div class="fancy-checkbox mr-0 ">
+                                    <label class="mb-0"><input
+                                            (change)="$event ? masterToggle(newSuccessorOptions, availableSuccesorselection) : null"
+                                            [checked]="availableSuccesorselection.hasValue() && isAllSelected(newSuccessorOptions, availableSuccesorselection)"
+                                            [indeterminate]="availableSuccesorselection.hasValue() && !isAllSelected(newSuccessorOptions, availableSuccesorselection)"
+                                            type="checkbox"
+                                            [disabled]="newSuccessorOptions.length===0"><span></span></label>
+                                </div>
+                            </th>
+                            <th>Name</th>
+                            <th>Trigger mode</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let successor of newSuccessorOptions; let i = index">
+                            <td>
+                                <div class="fancy-checkbox mr-0 ">
+                                    <label class="mb-0"><input type="checkbox" (click)="$event.stopPropagation()"
+                                            (change)="$event ? availableSuccesorselection.toggle(successor) : null"
+                                            [checked]="availableSuccesorselection.isSelected(successor)"><span></span></label>
+                                </div>
+                            </td>
+                            <td>{{successor.appPipelineStep ?  successor.appPipelineStep.name : successor.name}}</td>
+                            <td>
+                                <!-- <label class="mt-3">Application Build Type</label> -->
+                                <!-- <input formControlName="applicationBuildType" class="form-control" name="text"> -->
+                                <select class="custom-select" [(ngModel)]="successor.triggerMode">
+                                    <!-- mode.value === successor.appPipelineStep.triggerMode ? successor.appPipelineStep.triggerMode: null -->
+                                    <option *ngFor="let mode of triggerModes" [value]="mode.value"
+                                        [selected]="mode.value === successor.triggerMode">
+                                        {{mode.name}}
+                                    </option>
+                                </select></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-md-2 d-flex flex-column justify-content-center">
+            <button class="btn btn-primary mb-1 py-2 mx-3" (click)="addSuccessor()"> <i class="fa fa-plus"></i>
+            </button>
+            <button class="btn btn-primary py-2 mx-3" (click)="removeSuccessor()"> <i class="fa fa-minus"></i> </button>
+        </div>
+
+        <div class="col-md-5 border rounded p-2 d-flex justify-content-center flex-column">
+            <h6 class="text-center p-2">Current successors</h6>
+            <p class="text-center p-2" *ngIf="currentSuccessors.length<=0"> No current steps are available.
+            </p>
+            <div class="table-responsive" *ngIf="currentSuccessors.length>0">
+                <table class="table m-b-0 table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>
+                                <div class="fancy-checkbox mr-0 ">
+                                    <label class="mb-0"><input
+                                            (change)="$event ? masterToggle(currentSuccessors, currentSuccesorselection) : null"
+                                            [checked]="currentSuccesorselection.hasValue() && isAllSelected(currentSuccessors, currentSuccesorselection)"
+                                            [indeterminate]="currentSuccesorselection.hasValue() && !isAllSelected(currentSuccessors, currentSuccesorselection)"
+                                            type="checkbox"
+                                            [disabled]="currentSuccessors.length===0"><span></span></label>
+                                </div>
+                            </th>
+                            <th>Name</th>
+                            <th>Trigger mode</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let successor of currentSuccessors; let i = index">
+                            <td>
+                                <div class="fancy-checkbox mr-0 ">
+                                    <label class="mb-0"><input type="checkbox" (click)="$event.stopPropagation()"
+                                            (change)="$event ? currentSuccesorselection.toggle(successor) : null"
+                                            [checked]="currentSuccesorselection.isSelected(successor)"><span></span></label>
+                                </div>
+                            </td>
+                            <td>{{successor.appPipelineStep ?  successor.appPipelineStep.name : successor.name}}</td>
+                            <td>{{successor.triggerMode}}</td>
+                            <!-- <td> -->
+                            <!-- <label class="mt-3">Application Build Type</label> -->
+                            <!-- <input formControlName="applicationBuildType" class="form-control" name="text"> -->
+                            <!-- <select class="custom-select">
+                                    <option *ngFor="let mode of triggerModes" [value]="mode.value"
+                                        [selected]="mode.value === successor.appPipelineStep.triggerMode ">
+                                        {{mode.name}}
+                                    </option>
+                                </select></td> -->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center px-2 py-3">
+        <button class="btn btn-primary px-4 py-2" (click)="submit()">Save Successors</button>
+    </div>
+</div>

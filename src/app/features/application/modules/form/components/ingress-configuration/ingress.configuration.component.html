@@ -1,0 +1,104 @@
+<form action="" [formGroup]="advancedConfigForm">
+
+    <!-- <div class="row">
+        <div class="col-md-12">
+            <label class="mt-3 mb-1">TLS Secret Name</label>
+            <input formControlName="tlsSecretName" class="form-control" name="text">
+        </div>
+    </div> -->
+    <div class="row pt-4">
+        <div class="col-md-6 d-flex flex-column justify-content-end">
+            <div class="fancy-checkbox" [ngClass]="{'disabled': false}">
+                <label><input [indeterminate]="" type="checkbox" formControlName="ingressEnabled"
+                        [checked]="advancedConfigForm.controls.ingressEnabled.value" [disabled]="false"
+                        (change)="oningressChange()">
+                    <span>Ingress Enabled</span></label>
+                <ul class="parsley-errors-list filled"
+                    *ngIf="advancedConfigForm.controls['ingressEnabled'].invalid && (advancedConfigForm.controls['ingressEnabled'].dirty || advancedConfigForm.controls['ingressEnabled'].touched)">
+                    <li class="parsley-required" *ngIf="advancedConfigForm.controls['ingressEnabled'].errors.required">
+                        Enabling Ingress is required.
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-12" *ngIf="advancedConfigForm.controls.ingressEnabled.value">
+            <h6 class="mb-1 pt-4">Custom Ingress Configuration</h6>
+            <ng-container *ngIf="applicationEnvironmentMappings.environmentList.length>0">
+                <ng-container *ngFor="let environmentItem of applicationEnvironmentMappings.environmentList">
+                    <p class="mb-0 pt-2">{{environmentItem.environment.name}}</p>
+                    <div class="card p-4 d-flex ingressCard">
+                        <div class="d-flex">
+                            <div *ngFor="let vpc of environmentItem.selectedVpcList" class="vpcIngressCard">
+                                <p class="mb-1">{{vpc.name}}</p>
+                                <label class="pt-1">Custom ingress url</label>
+                                <input type="text" class="form-control" #customUrl
+                                    (blur)="addNewCutomIngress(customUrl.value,vpc,environmentItem)">
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </ng-container>
+        </div>
+        <div class="col-md-6" *ngIf="creationType === 'FROM_GIT_SOURCE'">
+                <label class="mt-3 mb-1">Health Check Url</label>
+                <input formControlName="healthCheckUrl" class="form-control" name="text" #appName
+                    [ngClass]="{'parsley-error':!advancedConfigForm.controls['healthCheckUrl'].valid && (advancedConfigForm.controls['healthCheckUrl'].touched )}">
+                <!-- <ul class="parsley-errors-list filled"
+                    *ngIf="advancedConfigForm.controls['healthCheckUrl'].invalid && (advancedConfigForm.controls['healthCheckUrl'].dirty || advancedConfigForm.controls['healthCheckUrl'].touched)">
+                    <li class="parsley-required" *ngIf="advancedConfigForm.controls['healthCheckUrl'].errors.required">
+                        Application Name is required.
+                    </li>
+                </ul> -->
+                <!-- <div class="input-group mb-3"> -->
+            </div>
+    </div>
+    <div class="row mt-3">
+
+        <div class="col-md-6" *ngIf="creationType === 'FROM_GIT_SOURCE'">
+            <label class="mt-3 mb-1">Application Port</label>
+            <input [(ngModel)]="appPort" [ngModelOptions]="{standalone: true}" class="form-control" name="text">
+        </div>
+        <div class="col-md-6" *ngIf="creationType === 'FROM_GIT_SOURCE'">
+            <label class="mt-3 mb-1">Metrics Port</label>
+            <input [(ngModel)]="metricsPort" [ngModelOptions]="{standalone: true}" class="form-control" name="text">
+        </div>
+
+    </div>
+    <!-- <label class="mt-3">Blue Green Deployment</label>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="fancy-checkbox" [ngClass]="{'disabled': false}">
+                <label>
+                    <input [indeterminate]="" type="checkbox" formControlName="blueGreenDeploymentEnabled"
+                        [checked]="advancedConfigForm.controls.blueGreenDeploymentEnabled.value" [disabled]="false">
+                    <span>Blue Green Deployment Enabled</span>
+                </label>
+                <ul class="parsley-errors-list filled"
+                    *ngIf="advancedConfigForm.controls['blueGreenDeploymentEnabled'].invalid && (advancedConfigForm.controls['blueGreenDeploymentEnabled'].dirty || advancedConfigForm.controls['blueGreenDeploymentEnabled'].touched)">
+                    <li class="parsley-required"
+                        *ngIf="advancedConfigForm.controls['blueGreenDeploymentEnabled'].errors.required">
+                        Enabling Ingress is required.
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="fancy-checkbox"
+                [ngClass]="{'disabled': advancedConfigForm.controls.istioIngressGatewayEnabled.disabled}">
+                <label><input [indeterminate]="" type="checkbox" formControlName="istioIngressGatewayEnabled"
+                        [checked]="advancedConfigForm.controls.istioIngressGatewayEnabled.value"
+                        [disabled]="advancedConfigForm.controls.istioIngressGatewayEnabled.disabled"
+                        (change)="onistioIngressGatewayChange()">
+                    <span>Istio Ingress Gateway Enabled</span></label>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="fancy-checkbox" [ngClass]="{'disabled': true}">
+                <label><input [indeterminate]="" type="checkbox" formControlName="istioEnabled"
+                        [checked]="advancedConfigForm.controls.istioEnabled.value" [disabled]="true">
+                    <span>Istio Enabled </span></label>
+            </div>
+        </div>
+    </div> -->
+
+</form>

@@ -1,0 +1,15 @@
+@import "../../../../assets/css/inbox.css";
+
+.message-subject-container {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+}
+
+.mail-inbox[_ngcontent-c5] .mail-right[_ngcontent-c5] .mail-detail-full[_ngcontent-c5] .detail-header[_ngcontent-c5] .float-left[_ngcontent-c5] img[_ngcontent-c5] {
+    max-height: 40px !important;
+}
+
+.mail-cnt {
+    background-color: #fefefe;
+}

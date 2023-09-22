@@ -1,0 +1,7 @@
+BUILD:
+docker build --no-cache -t sloppytiger-web .
+
+RUN:
+docker run -i -t -p 8000:8000 sloppytiger-web:latest
+
+docker run -d --net host sloppytiger-web:latest

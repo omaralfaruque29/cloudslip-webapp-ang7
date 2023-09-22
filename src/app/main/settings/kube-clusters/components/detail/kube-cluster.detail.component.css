@@ -1,0 +1,9 @@
+.env-name {
+    margin-left: 32px;
+    margin-top: -10px;
+    color: #888;
+}
+
+.pie-chart-body {
+    max-height: 300px !important;
+}

@@ -1,0 +1,35 @@
+.modal-body-fixed-height {
+    min-height: 300px !important;
+    max-height: 450px !important;
+    overflow: auto;
+}
+
+.table td {
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.table-hover tbody tr td a {
+    opacity: 0;
+}
+.table-hover tbody tr:hover td a {
+    opacity: 1;
+}
+
+.table-hover tbody .input-row:hover {
+    background-color: #fff;
+}
+
+.input-row td {
+    padding-bottom: 10px !important;
+}
+
+.multiselect-dropdown .dropdown-btn .selected-item {
+    border: 1px solid #4996A2 !important;
+    background: #4996A2 !important;
+}
+
+.check-item-table-title {
+    font-weight: bold;
+    font-size: 14px;
+}

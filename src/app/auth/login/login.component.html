@@ -1,0 +1,64 @@
+<div id="wrapper">
+	<div class="vertical-align-wrap">
+		<div class="vertical-align-middle auth-main">
+			<span class="sloppyTitle text-center d-none d-lg-block">Redefine <h1>DEVOPS</h1> with <br>
+				<h1> SloppyTiger</h1>
+				<img class="auth-cloud-icon" src="assets/images/icon/ic_cloud_light.svg" alt="cloudslip">
+			</span>
+
+			<div class="right-side-img-container">
+				<img class="right-side-img" src="assets/images/icon/ic_sloppy_tiger_01.png">
+			</div>
+
+			<div class="auth-box">
+				<div class="top d-flex justify-content-center align-content-center mb-0">
+					<img class="logo-cloudslip" src="assets/images/logo.svg" alt="cloudslip">
+				</div>
+				<div class="card" style="z-index:2">
+					<div class="header">
+						<p class="lead">Login to your account</p>
+					</div>
+					<div *ngIf="invalidCredential" class="alert alert-danger text-center mt-2">
+						{{this.errorMessage}}
+					</div>
+					<div class="body">
+						<form class="form-auth-small" [formGroup]="form" (ngSubmit)="onSubmit()">
+							<div class="form-group">
+								<label for="signin-email" class="control-label sr-only">Username</label>
+								<input id="signin-email" type="email" class="form-control"
+									placeholder="youremail@xyz.com" [formControl]="form.controls['username']"
+									[ngClass]="{'form-control-danger': form.controls['username'].hasError('required') && form.controls['username'].touched}" />
+								<div class="invalid-feedback"
+									*ngIf="form.controls['username'].hasError('required') && form.controls['username'].touched">
+									Username is required.</div>
+							</div>
+							<div class="form-group">
+								<label for="signin-password" class="control-label sr-only">Password</label>
+								<input id="signin-password" type="password" class="form-control" placeholder="* * * * * * * *"
+									[formControl]="form.controls['password']"
+									[ngClass]="{'form-control-danger': form.controls['password'].hasError('required') && form.controls['password'].touched}" />
+								<div class="invalid-feedback"
+									*ngIf="form.controls['password'].hasError('required') && form.controls['password'].touched">
+									Password is required.</div>
+							</div>
+							<!--<div class="form-group clearfix">
+								<label class="fancy-checkbox element-left">
+									<input type="checkbox">
+									<span>Remember me</span>
+								</label>
+							</div>-->
+							<button type="submit" class="btn btn-primary btn-lg btn-block"
+								[disabled]="!form.valid">LOGIN</button>
+							<div class="bottom">
+								<span class="helper-text m-b-10"><i class="fa fa-lock"></i>&nbsp;<a
+										[routerLink]="['/auth/forgot-password']">Forgot
+										password?</a></span>
+								<span>Don't have an account? <a [routerLink]="['/auth/register']">Register</a></span>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

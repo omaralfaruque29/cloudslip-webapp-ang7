@@ -1,0 +1,189 @@
+<div class="px-4 pt-2 pb-2">
+    <p class="mb-0">Environment Option List <span class="text-small">(Select an environment from the list. Default:
+            Production)</span></p>
+    <div class="d-flex flex-wrap pt-2">
+        <div class="vpc cursor-pointer" *ngFor="let environmentOption of environmentListOptions"
+            [ngClass]="{ 'checked': environmentOption.checked }" (click)="changeEnvironment(environmentOption)">
+            <!--(click)="changeEnvironment(environmentOption.id, vpc)" -->
+            <i class="fa fa-globe"></i><span class="ml-1">{{environmentOption.name}}</span>
+        </div>
+    </div>
+    <div class="fancy-checkbox pt-4" *ngIf="currentVPCs.length>1">
+        <label>
+            <input type="checkbox" [checked]="true" [(ngModel)]="sameVpcConfigChecker"
+                (change)="mapGeneralAvailableResource()">
+            <!-- " -->
+            <span>Apply for all targets</span>
+        </label>
+    </div>
+    <app-auto-scaling-form *ngIf="sameVpcConfigChecker" [availableResouce]="generalAvailableReosurce"
+        (onSave)="onAutoScalingSave($event)" #autoScalingForm>
+    </app-auto-scaling-form>
+    <!-- <p class="mb-0 pt-4">Selected Environments</p> -->
+    <div *ngFor="let appEnvironment of applicationEnvironments; let i=index" class="mt-1">
+        <p class="mb-0 pt-4">Selected VPCs ({{appEnvironment.environment.name}})<button
+                class="btn btn-sm btn-outline-primary small-button" (click)="openVPCMappingModal(appEnvironment)">
+                <i class="icon-plus"></i> Add VPC</button></p>
+        <p *ngIf="appEnvironment.appVpcList.length<=0" class="mb-0 pt-2 text-danger">No VPC is selected for
+            {{appEnvironment.environment.name}} environment</p>
+        <div class="d-flex flex-wrap" *ngIf="appEnvironment.appVpcList.length>0">
+            <div class="card vpcCard" *ngFor="let vpc of appEnvironment.appVpcList">
+                <div class="row">
+                    <div class="col-md-2 d-flex justify-content-center align-items-center text-light"
+                        style="border-radius: 0.55rem 0 0 0.55rem; background-color: #8dddd3">
+                        <i class="fa fa-cloud"></i>
+                    </div>
+                    <div class="col-md-8 d-flex text-left py-2 pl-2 pr-0">
+                        <div class="pl-0 pr-2 vpcDec">
+                            <p class="mb-0"><strong>{{vpc.name}}</strong></p>
+                            <!-- <p class="text-secondary mb-0" style="font-size: 12px">
+                            </p> -->
+                        </div>
+                        <div class="d-flex ml-2" style="font-size: 11px">
+                            <span title="CPU"
+                                class="badge-resource d-flex flex-column justify-content-center align-items-center">
+                                <img class="ic-cpu" src="assets/images/icon/ic_cpu.png" />
+                                {{(vpc.availableCPU/1000).toFixed(2)}}C
+                            </span>
+                            <span title="Memory"
+                                class="badge-resource d-flex flex-column justify-content-center align-items-center">
+                                <img class="ic-cpu" src="assets/images/icon/ic_ram.png" />
+                                {{(vpc.availableMemory/1024).toFixed(2)}}G
+                            </span>
+                            <span title="Storage"
+                                class="badge-resource d-flex flex-column justify-content-center align-items-center">
+                                <img class="ic-cpu" src="assets/images/icon/ic_storage.png" />
+                                {{(vpc.availableStorage/1024).toFixed(2)}}G
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 pl-0 d-flex justify-content-start align-items-start">
+                        <button class="btn close closeButton p-2" (click)="openVPCMappingModal(appEnvironment)"><i
+                                class="fa fa-edit"></i></button>
+                    </div>
+                </div>
+                <!-- <app-auto-scaling-form [vpcId]="vpc.id" (onSave)="onAutoScalingSave($event)" #autoScalingForm>
+            </app-auto-scaling-form> -->
+            </div>
+        </div>
+
+
+        <ng-container *ngIf="!sameVpcConfigChecker">
+            <div *ngFor="let vpc of appEnvironment.appVpcList">
+
+                <mat-expansion-panel class="mt-1" [expanded]="true">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <p class="mb-0">{{vpc.name}}</p>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <app-auto-scaling-form [vpcId]="vpc.vpcId" [availableResouce]="vpc.availableResouce"
+                        [environmentId]="appEnvironment.environmentId" (onSave)="onAutoScalingSave($event)"
+                        (onChange)="onResourceChange($event,false)" (onInitialChange)="onInitialResourceChange($event,true)"
+                        #autoScalingForm>
+                    </app-auto-scaling-form>
+
+                </mat-expansion-panel>
+            </div>
+        </ng-container>
+        <!-- </mat-panel-title> -->
+    </div>
+</div>
+
+<ng-template #vpcMappingModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h6 class="modal-title mt-1">VPC Mapping</h6>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <app-application-vpc-mapping [applicationEnvironments]="applicationEnvironments" [vpcList]="vpcListForMapping"
+            [selectedEnvironmentId]="selectedEnvironmentId" (onMap)="onMap($event)" #vpcMapping>
+        </app-application-vpc-mapping>
+    </div>
+</ng-template>
+
+<!-- <div class="p-4 ">
+    <span class="d-flex">
+        <h6>Target</h6> <button class="btn btn-sm btn-outline-primary small-button" (click)="openEnvMappingModal()"> <i
+                class="icon-refresh"></i> Change</button>
+    </span>
+    <span *ngIf="currentVPCs.length<=0">Select a VPC from mapping. Click on change.</span>
+
+    <div *ngFor="let vpc of currentVPCs" class="card vpcCard">
+        <div class="row">
+            <div class="col-md-2 d-flex justify-content-center align-items-center text-light"
+                style="border-radius: 0.55rem 0 0 0.55rem; background-color: #8dddd3">
+                <i class="fa fa-cloud"></i>
+            </div>
+            <div class="col-md-8 d-flex  text-left py-2 pl-2 pr-0">
+                <div class="pl-0 pr-2 vpcDec">
+                    <p class="mb-0 "><strong>{{vpc.name}}</strong></p>
+                    <p class="text-secondary mb-0" style="font-size: 12px">{{vpc.environmentName}}</p>
+                </div>
+                <div class="d-flex ml-2" style="font-size: 11px">
+                    <span title="CPU" class="badge-resource d-flex flex-column justify-content-center align-items-center">
+                        <img  class="ic-cpu" src="assets/images/icon/ic_cpu.png" />
+                        {{(vpc.availableCPU/1000).toFixed(2)}}C
+                    </span>
+                    <span title="Memory" class="badge-resource d-flex flex-column justify-content-center align-items-center">
+                        <img  class="ic-cpu" src="assets/images/icon/ic_ram.png" />
+                        {{(vpc.availableMemory/1024).toFixed(2)}}G
+                    </span>
+                    <span title="Storage" class="badge-resource d-flex flex-column justify-content-center align-items-center">
+                        <img  class="ic-cpu" src="assets/images/icon/ic_storage.png" />
+                        {{(vpc.availableStorage/1024).toFixed(2)}}G
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-2 pl-0 d-flex justify-content-start align-items-start">
+                <button class="btn close closeButton p-2" (click)="removeVPC(vpc)"><i class="fa fa-times"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <h6 *ngIf="currentVPCs.length>1" class="mt-2">Deployment Configuration</h6>
+    <div *ngIf="currentVPCs.length<=0" class="text-center py-4">
+        <h5>No VPC selected</h5>
+        <span class="p-4 rounded"> <i class="fa fa-3x fa-server"></i></span>
+    </div>
+    <div class="fancy-checkbox" *ngIf="currentVPCs.length>1">
+        <label>
+            <input type="checkbox" [checked]="true" [(ngModel)]="sameVpcConfigChecker" (change)="mapGeneralAvailableResource()">
+            <span>Apply for all targets</span>
+        </label>
+    </div>
+    <app-auto-scaling-form *ngIf="sameVpcConfigChecker" [availableResouce]="generalAvailableReosurce" (onSave)="onAutoScalingSave($event)" #autoScalingForm>
+    </app-auto-scaling-form>
+
+    <ng-container *ngIf="!sameVpcConfigChecker">
+
+        <mat-expansion-panel *ngFor="let vpc of currentVPCs; let i=index" class="mt-1" [expanded]="true">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <h6><strong>{{vpc.name}}</strong></h6>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <app-auto-scaling-form [vpcId]="vpc.id"  (onSave)="onAutoScalingSave($event)" #autoScalingForm>
+            </app-auto-scaling-form>
+
+        </mat-expansion-panel>
+
+    </ng-container>
+
+    <ng-template #envMappingModal let-c="close" let-d="dismiss">
+        <div class="modal-header">
+            <h4 class="modal-title mt-1">Advanced Environment Mapping</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <app-application-env-mapping [applicationEnvironments]="applicationEnvironments"
+                [companyEnvironmentList]="environmentList" (onMap)="onMap($event)"></app-application-env-mapping>
+        </div>
+    </ng-template>
+
+</div> -->

@@ -1,0 +1,36 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{modalHeader}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form *ngIf="!dataLoading" [formGroup]="organizationForm" (ngSubmit)='submit()' novalidate>
+
+        <div class="form-group p-2">
+            <label class="mt-3 mb-1">Name *</label>
+            <input formControlName="name" class="form-control" name="text"
+                [ngClass]="{'parsley-error':!organizationForm.controls['name'].valid && (organizationForm.controls['name'].touched )}">
+            <ul class="parsley-errors-list filled"
+                *ngIf="organizationForm.controls['name'].invalid && (organizationForm.controls['name'].dirty || organizationForm.controls['name'].touched)">
+                <li class="parsley-required" *ngIf="organizationForm.controls['name'].errors.required">
+                    Name is required.
+                </li>
+            </ul>
+            <label class="mt-3 mb-1">Select a Git Directory</label>
+            <select class="custom-select" formControlName="gitDirectory" id="inputGroupSelect01" [ngClass]="{'parsley-error':!organizationForm.controls['gitDirectory'].valid && (organizationForm.controls['gitDirectory'].touched )}">
+                <option *ngFor="let g of gitDirectoryList" [ngValue]="g" [selected]="(organizationForm.value['id'] != null && g['id'] === organizationForm.value['gitDirectory']['id']) ? true : false">{{g['name']}}</option>
+            </select>
+            <div class="row">
+                <div class="col">
+                    <label class="mt-3 mb-1">Description</label>
+                    <textarea formControlName="description" class="form-control" name="description"></textarea>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-primary" (click)="submit()">{{modalActionButton}}</button>
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+</div>

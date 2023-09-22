@@ -1,0 +1,94 @@
+.mrb-10 {
+    margin-bottom: 10px !important;
+}
+
+.mrb-15 {
+    margin-bottom: 15px !important;
+}
+
+.mrb-20 {
+    margin-bottom: 20px !important;
+}
+
+.ng5-slider .ng5-slider-tick-legend {
+    max-width: 100px !important;
+}
+
+.mw-100 {
+    min-width: 100px !important;
+}
+
+.mw-120 {
+    min-width: 120px !important;
+}
+
+.mw-150 {
+    min-width: 150px !important;
+}
+
+.mw-200 {
+    min-width: 200px !important;
+}
+
+input[type="password"] {
+    letter-spacing: -4px !important;
+    font-weight: bold !important;
+}
+
+input[type="password"]::-webkit-input-placeholder {
+    font-weight: normal !important;
+    letter-spacing: -1px !important;
+}
+
+input[type="password"]::-moz-placeholder { /* Firefox 19+ */
+    font-weight: normal !important;
+    letter-spacing: -1px !important;
+}
+
+input[type="password"]:-ms-input-placeholder { /* IE 10+ */
+    font-weight: normal !important;
+    letter-spacing: -1px !important;
+}
+
+input[type="password"]:-moz-placeholder { /* Firefox 18- */
+    font-weight: normal !important;
+    letter-spacing: -1px !important;
+}
+
+
+
+.table-responsive::-webkit-scrollbar-thumb
+{
+    background-color: #777777;
+}
+
+
+.table-responsive::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
+    background-color: #F5F5F5;
+}
+
+.table-responsive::-webkit-scrollbar
+{
+    width: 6px;
+    height: 6px;
+    background-color: #F5F5F5;
+}
+
+.table-responsive::-webkit-scrollbar-thumb
+{
+    background-color: #777777;
+}
+
+.table-np td, .table-np th {
+    padding: 2px !important;
+}
+
+.modal-min-height {
+    min-height: 350px !important;
+}
+
+.dropdown-item {
+    font-size: 13px !important;
+}

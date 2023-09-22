@@ -1,0 +1,81 @@
+
+.dropHover:hover {
+    opacity: .5;
+    color:  #60bafd;
+}
+
+.environment-option-width {
+    width:80px;
+}
+
+.mat-expansion-panel {
+    margin-bottom: 20px;
+    margin-left: 20px;
+    margin-right:20px;
+    border: solid 1px #f2f2f2;
+    box-shadow: none !important;
+}
+
+.environmentBottomMargin[_ngcontent-c5] {
+    margin-bottom: 0px !important;
+}
+
+.mat-expansion-panel-body-container {
+    padding-top: 20px !important;
+}
+
+.item-inactive {
+    border: solid 1px #ddd !important;
+}
+
+.icon-inactive {
+    -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(100%);
+    width: 40px;
+    height: auto;
+}
+
+.environment-name-margin{
+    padding-left: 32px;
+    padding-top: 15px;
+}
+
+.modal-body {
+    padding-top: 0px !important;
+}
+
+.icon-environment-delete {
+    width: 100% !important;
+}
+
+.disable-ripple:hover{
+    cursor: default !important;
+}
+.disable-and-delete-button-container {
+    padding-top: 5px;
+}
+
+.disable-button-container {
+    padding-right: 20px;
+}
+
+.env-icon-inactive {
+    -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(100%);
+}
+
+.env-icon {
+    width: 40px;
+    height: auto;
+}
+
+.env-icon-width{
+    width: 5%;
+}
+
+/deep/ .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+    background-color: #6ecadc;
+}
+/deep/ .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
+    background-color: #00acc1;
+}

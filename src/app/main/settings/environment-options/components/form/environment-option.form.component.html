@@ -1,0 +1,42 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{modalHeader}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="environmentOptionForm" (ngSubmit)='submit()' novalidate>
+
+        <div class="form-group p-2">
+            <label class="mt-3 mb-1">Name *</label>
+            <input formControlName="name" class="form-control" name="text"
+                [ngClass]="{'parsley-error':!environmentOptionForm.controls['name'].valid && (environmentOptionForm.controls['name'].touched )}">
+            <ul class="parsley-errors-list filled"
+                *ngIf="environmentOptionForm.controls['name'].invalid && (environmentOptionForm.controls['name'].dirty || environmentOptionForm.controls['name'].touched)">
+                <li class="parsley-required" *ngIf="environmentOptionForm.controls['name'].errors.required">Name is
+                    required.
+                </li>
+            </ul>
+
+            <label class="mt-3 mb-1">Short Name *</label>
+            <input formControlName="shortName" class="form-control" name="text"
+                   [ngClass]="{'parsley-error':!environmentOptionForm.controls['shortName'].valid && (environmentOptionForm.controls['shortName'].touched )}">
+            <ul class="parsley-errors-list filled"
+                *ngIf="environmentOptionForm.controls['shortName'].invalid && (environmentOptionForm.controls['shortName'].dirty || environmentOptionForm.controls['shortName'].touched)">
+                <li class="parsley-required" *ngIf="environmentOptionForm.controls['shortName'].errors.required">Short Name is
+                    required.
+                </li>
+            </ul>
+
+            <label class="mt-3 mb-1">Description</label>
+            <textarea class="form-control" rows="5" cols="30" formControlName="description"
+                name="description"></textarea>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-primary" (click)="submit()">{{modalActionButton}}</button>
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+</div>
+
+<!-- || environmentOptionForm.submitted -->

@@ -1,0 +1,150 @@
+<div class="container-fluid">
+    <div class="block-header">
+        <div class="row">
+            <div class="col-lg-5 col-md-8 col-sm-12">
+                <h2>
+                    <a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"
+                        (click)="toggleFullWidth()">
+                        <i class="fa fa-arrow-left" *ngIf="sidebarVisible"></i>
+                        <i class="fa fa-arrow-right" *ngIf="!sidebarVisible"></i>
+                    </a>
+                    Company List
+                </h2>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a [routerLink]="['/admin/dashboard']"><i class="icon-home"></i></a>
+                    </li>
+                    <li class="breadcrumb-item"><a routerLink="/main/company">Company List</a></li>
+                    <li class="breadcrumb-item active">Company Detail:</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row clearfix">
+        <div class="col-lg-12 col-md-12">
+            <div class="card">
+                <div class="header d-flex justify-content-between mb-2">
+                    <h2>Company Detail</h2>
+                    <!-- <div class="d-flex justify-content-end mb-2"> -->
+                    <button class="btn btn-outline-primary" (click)="back()">
+                        <i class="fa fa-chevron-left mr-2"></i>Back</button>
+                    <!-- </div> -->
+                </div>
+
+                <div class="body">
+                    <!-- <div class="row clearfix"> -->
+                    <!-- <div class="col-lg-6 col-md-12">
+                            <div class="receipt-left">
+                                <img class="img-fluid" src="assets/images/user.png"
+                                    style="width: 71px; border-radius: 43px;">
+                            </div>
+                        </div> -->
+                    <!-- <div class="col-lg-6 col-md-12 text-right">
+                            <h5>{{company.name}}</h5>
+                            <p class="mb-0">+91 12345-6789 <i class="fa fa-phone"></i></p>
+                            <p class="mb-0">info@gmail.com <i class="fa fa-envelope-o"></i></p>
+                            <p>USA <i class="fa fa-location-arrow"></i></p>
+                        </div> -->
+                    <!-- </div> -->
+                    <div class="row clearfix">
+                        <div class="col-lg-8 col-md-12">
+                            <h5>{{company.name}}</h5>
+                            <p class="mb-0"><b>Mobile :</b> {{company.phoneNo}}</p>
+                            <p class="mb-0"><b>Email :</b> {{company.businessEmail}}</p>
+                            <p><b>Address :</b> {{company.address}}</p>
+                        </div>
+                        <!-- <div class="col-lg-4 col-md-12 text-right">
+                            <h3>Receipt</h3>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row clearfix">
+        <div class="col-lg-12 col-md-12">
+            <div class="card">
+                <div *ngIf="tableValue.length<=0" class="p-4 text-center">
+                    <h4>No organization is created yet.</h4>
+                    <button class="btn btn-outline-primary mt-2" (click)="openCreateModal()">Add Organization</button>
+                </div>
+
+                <div class="body project_report" *ngIf="tableValue.length>0">
+                    <div class="d-flex justify-content-end mb-2">
+                        <button class="btn btn-outline-primary" (click)="openCreateModal()">Add Organization</button>
+                        <button class="btn btn-outline-danger ml-2" *ngIf="selection.hasValue()"
+                                (click)="openDeleteModal(deleteOrganizationModal)">Batch Delete</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table m-b-0 table-hover">
+                            <thead class="thead-light">
+                            <tr>
+                                <th>
+                                    <div class="fancy-checkbox mr-0 ">
+                                        <label class="mb-0"><input (change)="$event ? masterToggle() : null"
+                                                                   [checked]="selection.hasValue() && isAllSelected()"
+                                                                   [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                                                   type="checkbox"
+                                                                   [disabled]="tableValue.length===0"><span></span></label>
+                                    </div>
+                                </th>
+                                <th>Organization Name</th>
+                                <th>Description</th>
+                                <th>Created By</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let organization of tableValue; let i = index">
+                                <td>
+                                    <div class="fancy-checkbox mr-0 ">
+                                        <label class="mb-0"><input type="checkbox"
+                                                                   (click)="$event.stopPropagation()"
+                                                                   (change)="$event ? selection.toggle(organization) : null"
+                                                                   [checked]="selection.isSelected(organization)"><span></span></label>
+                                    </div>
+                                </td>
+                                <td>{{organization.name}}</td>
+                                <td>{{organization.description}}</td>
+                                <td>{{organization.createdBy}}</td>
+                                <td class="align-middle"> {{organization.createDate | date:'medium'}}</td>
+                                <td class="project-actions">
+                                    <button (click)="openEditModal(organization)" class="btn btn-outline-primary mr-1"><i
+                                            class="icon-pencil"></i></button>
+                                    <button (click)="openDeleteModal(deleteOrganizationModal, organization)"
+                                            class="btn btn-outline-danger "><i class="icon-trash"></i></button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #deleteOrganizationModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Delete Organization</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p *ngIf="deletingOrganization">Are you sure you want to delete organization
+            '{{deletingOrganization['name']}}'?</p>
+        <p *ngIf="selection.hasValue()">Are you sure you want to delete organization
+            <span
+                    *ngFor="let selectedDeletingOrganization of selection.selected">'{{selectedDeletingOrganization['name']}},
+                '</span>
+            ?</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger" (click)="onDeleteConfirmation()">Delete</button>
+        <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+    </div>
+</ng-template>

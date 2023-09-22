@@ -1,0 +1,64 @@
+<form [formGroup]="dockerHubSettingsForm" novalidate>
+    <div class="form-group p-2">
+        <label class="mt-3 mb-1">Registry Type *</label>
+        <select formControlName="dockerRegistryType" class="form-control"
+            [ngClass]="{'parsley-error':!dockerHubSettingsForm.controls['dockerRegistryType'].valid && (dockerHubSettingsForm.controls['dockerRegistryType'].touched )}"
+            required>
+            <option value="null">Select a registry type</option>
+            <option value="DOCKER_HUB">Docker Hub</option>
+            <option value="CUSTOM">Custom</option>
+        </select>
+        <ul class="parsley-errors-list filled"
+            *ngIf="dockerHubSettingsForm.controls['dockerRegistryType'].invalid && (dockerHubSettingsForm.controls['dockerRegistryType'].dirty || dockerHubSettingsForm.controls['dockerRegistryType'].touched)">
+            <li class="parsley-required" *ngIf="dockerHubSettingsForm.controls['dockerRegistryType'].errors.required">
+                Registry Type is required.
+            </li>
+        </ul>
+
+        <div *ngIf="dockerHubSettingsForm.value.dockerRegistryType == 'CUSTOM'">
+            <label class="mt-3 mb-1">Registry Server *</label>
+            <input formControlName="dockerRegistryServer" class="form-control"
+                [ngClass]="{'parsley-error':!dockerHubSettingsForm.controls['dockerRegistryServer'].valid && (dockerHubSettingsForm.controls['dockerRegistryServer'].touched )}">
+            <ul class="parsley-errors-list filled"
+                *ngIf="dockerHubSettingsForm.controls['dockerRegistryServer'].invalid && (dockerHubSettingsForm.controls['dockerRegistryServer'].dirty || dockerHubSettingsForm.controls['dockerRegistryServer'].touched)">
+                <li class="parsley-required"
+                    *ngIf="dockerHubSettingsForm.controls['dockerRegistryServer'].errors.required">
+                    Registry Server Address is required.
+                </li>
+            </ul>
+        </div>
+
+        <label class="mt-3 mb-1">Username *</label>
+        <input formControlName="dockerhubId" class="form-control"
+            [ngClass]="{'parsley-error':!dockerHubSettingsForm.controls['dockerhubId'].valid && (dockerHubSettingsForm.controls['dockerhubId'].touched )}">
+        <ul class="parsley-errors-list filled"
+            *ngIf="dockerHubSettingsForm.controls['dockerhubId'].invalid && (dockerHubSettingsForm.controls['dockerhubId'].dirty || dockerHubSettingsForm.controls['dockerhubId'].touched)">
+            <li class="parsley-required" *ngIf="dockerHubSettingsForm.controls['dockerhubId'].errors.required">
+                Username is required.
+            </li>
+        </ul>
+
+        <label class="mt-3 mb-1">Email *</label>
+        <input formControlName="dockerhubEmail" type="email" class="form-control"
+            [ngClass]="{'parsley-error':!dockerHubSettingsForm.controls['dockerhubEmail'].valid && (dockerHubSettingsForm.controls['dockerhubEmail'].touched )}">
+            <ul class="parsley-errors-list filled"
+            *ngIf="dockerHubSettingsForm.controls['dockerhubEmail'].invalid && (dockerHubSettingsForm.controls['dockerhubEmail'].dirty || dockerHubSettingsForm.controls['dockerhubEmail'].touched)">
+            <li class="parsley-required" *ngIf="dockerHubSettingsForm.controls['dockerhubEmail'].errors.required">
+                Email is required.
+            </li>
+        </ul>
+
+        <label class="mt-3 mb-1">Password *</label>
+        <input formControlName="dockerhubPassword" type="password" class="form-control"
+            [ngClass]="{'parsley-error':!dockerHubSettingsForm.controls['dockerhubPassword'].valid && (dockerHubSettingsForm.controls['dockerhubPassword'].touched )}">
+        <ul class="parsley-errors-list filled"
+            *ngIf="dockerHubSettingsForm.controls['dockerhubPassword'].invalid && (dockerHubSettingsForm.controls['dockerhubPassword'].dirty || dockerHubSettingsForm.controls['dockerhubPassword'].touched)">
+            <li class="parsley-required" *ngIf="dockerHubSettingsForm.controls['dockerhubPassword'].errors.required">
+                Password is required.
+            </li>
+        </ul>
+        <div class=" mt-4">
+            <button type="button" class="btn btn-block btn-primary" (click)="saveDockerHubInfo()">Save</button>
+        </div>
+    </div>
+</form>

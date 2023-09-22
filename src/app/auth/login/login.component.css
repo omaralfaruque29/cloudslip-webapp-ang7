@@ -1,0 +1,32 @@
+@import url("https://fonts.googleapis.com/css?family=Dosis");
+
+.sloppyTitle {
+  text-transform: uppercase;
+  position: absolute;
+  left: 50%;
+  bottom: 23%;
+  font-family: "Dosis", cursive;
+  color: #fff;
+}
+
+.auth-cloud-icon {
+  width: 180px !important;
+  height: auto;
+}
+
+.logo-cloudslip {
+  width: 180px !important;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.right-side-img-container {
+  position: absolute;
+  right: 50px;
+}
+
+.right-side-img {
+  margin-top: 100px;
+  height: 300px;
+  width: auto;
+}

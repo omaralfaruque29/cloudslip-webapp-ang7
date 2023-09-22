@@ -1,0 +1,192 @@
+<div class="d-flex">
+    <div class="commit-list-window">
+        <div class="list-group commit-list-container">
+            <a (click)="updatePipeline(i)" *ngFor="let commit of commitList; let i=index" style="position: relative;"
+                class="list-group-item list-group-item-action flex-column align-items-start cursor-pointer" [ngClass]=" { 'listActive': commit.active , 'listRunning': commit.running} ">
+                <div class="d-flex w-100 justify-content-between">
+
+                    <h6 class="mb-1 show-dot-on-overflow text-commit-message" [title]="commit.appCommit.commitMessage">
+                        {{commit.appCommit.commitMessage}}</h6>
+                    <!-- <small>3 days ago</small> -->
+                </div>
+                <p class="mb-1 show-dot-on-overflow text-commit-id" [title]="'Git Commit Id: ' + commit.appCommit.gitCommitId">
+                   {{commit.appCommit.gitCommitId}}</p>
+                <span class="show-dot-on-overflow text-commit-date">
+                    <small>{{calclulateDate(commit.appCommit.commitDate)| date: 'medium'}}</small>
+                </span>
+                <!-- <span class="badge badge-primary">Primary</span> -->
+            </a>
+        </div>
+    </div>
+    <div class="pipeline-window pr-4 pipelines" id="commitPipelineStep">
+        <div class="py-2 wrapper" id="pwrapper">
+            <div class="env" *ngFor="let env of commitList[currentCommitIndex]?.environmentStateList; let envIndex = index">
+                <ul>
+                    <h6 class="text-center environment-title-container">
+                        <span class="environment-name-title">{{env.appEnvironment.environment.name}}</span>
+                    </h6>
+                    <li *ngFor="let item of env.steps; let stepIndex = index" #elem id={{item.appPipelineStep.id}} [contextMenu]="basicMenu"
+                        [contextMenuSubject]="item">
+                        <div class="step px-3 py-2" [ngClass]="{ 'step-glow': (item.starting || (item.progressValue != null && item.progressValue >= 0 && item.progressValue < 100))  }" (click)="showPipelineStepDescriptionView(item)">
+                            <span>
+                                <img *ngIf="item.appPipelineStep.stepType === 'BUILD'" style="width: 23px; height: 23px;" src="assets/images/icon/ic_build.png">
+                                <img *ngIf="item.appPipelineStep.stepType === 'DEPLOY'" style="width: 28px; height: 28px;" src="assets/images/icon/ic_launch.png">
+                            </span>
+                            <p class="step-name pl-3">
+                                {{ item.appPipelineStep.name.toLowerCase() | titlecase}}
+                            </p>
+                            <button class="btn p-0"> <i class="icon-control-play" style="font-size: 1.1rem" *ngIf="item.type === 'NONE'" (click)="triggerStep(canaryDeploymentConfirmationModal, currentCommitIndex, envIndex, stepIndex, item.id)"></i>
+                            </button>
+                            <mat-progress-spinner style="margin-top: .2rem" [value]="item.progressValue" diameter="25" *ngIf="item.progressValue > 0 && item.progressValue < 100" [color]="'#45e5c3'">
+                            </mat-progress-spinner>
+                            <mat-progress-spinner style="margin-top: .2rem" mode="indeterminate" diameter="25" *ngIf="item.type === 'RUNNING' && item.starting" [color]="'#00acc1'">
+                            </mat-progress-spinner>
+                            <button *ngIf="item.type === 'SUCCESS' || item.type === 'PIPELINE_SUCCESS' || item.type == 'SUCCESS_BUT_INACTIVE' ||  item.progressValue === 100" class="retry btn p-0" (click)="triggerStep(((item.runningAsCanary && item.type === 'SUCCESS') ? rolloutConfirmationModal : canaryDeploymentConfirmationModal), currentCommitIndex, envIndex, stepIndex, item.id);$event.stopPropagation()">
+                                <i *ngIf="item.type === 'PIPELINE_SUCCESS'" class="icon-check" style="font-size: 1.2rem" [ngClass]="{'text-warning': item.runningAsCanary, 'text-success': !item.runningAsCanary}"></i>
+                                <img *ngIf="item.type === 'SUCCESS' && item.runningAsCanary === false" src="assets/images/icon/ic_sun_active_2.svg" class="ic-deploy-success"/>
+                                <img *ngIf="item.type === 'SUCCESS_BUT_INACTIVE' && item.runningAsCanary === false" src="assets/images/icon/ic_sun_inactive_2.svg" class="ic-deploy-success"/>
+                                <img *ngIf="item.type === 'SUCCESS' && item.runningAsCanary === true" src="assets/images/icon/ic_sun_cloud_active.svg" class="ic-deploy-success"/>
+                                <img *ngIf="item.type === 'SUCCESS_BUT_INACTIVE' && item.runningAsCanary === true" src="assets/images/icon/ic_sun_cloud_inactive.svg" class="ic-deploy-success"/>
+                            </button>
+                            <button *ngIf="item.type === 'FAILED' || item.type === 'PIPELINE_FAILED' || item.progressValue < 0" class="retry btn p-0" (click)="triggerStep(canaryDeploymentConfirmationModal, currentCommitIndex, envIndex, stepIndex, item.id);$event.stopPropagation()"> <i class="icon-check text-danger" style="font-size: 1.2rem"></i> </button>
+                            <button *ngIf="item.type === 'PENDING'" class="btn p-0 " (click)="triggerStep(canaryDeploymentConfirmationModal, currentCommitIndex, envIndex, stepIndex, item.id);$event.stopPropagation()"> <i class="icon-hourglass text-warning" style="font-size: 1.2rem"></i> </button>
+                            <!-- <input style="width:30px; background: yellow;" #suc /> -->
+                            <!-- <button (click)="add(item,suc.value)">Add Successor</button> -->
+                        </div>
+                    </li>
+                </ul>
+                <context-menu>
+                    <ng-template contextMenuItem (execute)="fetchLogofPastStep($event.item, 'text')" [enabled]="true">
+                        <p class="dropdown-item-text pl-3 mb-0"><i class="icon-eye"></i>&nbsp;&nbsp;&nbsp;Show Log</p>
+                    </ng-template>
+                    <ng-template contextMenuItem divider="true"></ng-template>
+                    <ng-template contextMenuItem let-item (execute)="fetchLogofPastStep($event.item, 'download')"
+                        [enabled]="true">
+                        <p class="dropdown-item-text pl-3 mb-0"><i class="icon-cloud-download"></i>&nbsp;&nbsp;&nbsp;Download Log</p>
+                    </ng-template>
+                </context-menu>
+            </div>
+        </div>
+        <svg xmlns="http://www.w3.org/2000/svg" style="width:0; height:0">
+            <marker id="triangle" viewBox="0 0 10 10" refX="40" refY="5" markerUnits="strokeWidth" markerWidth="5"
+                markerHeight="4" orient="auto" fill="#45e5c3" stroke="#45e5c3">
+                <path d="M 0 0 L 10 5 L 0 10 z" />
+            </marker>
+        </svg>
+    </div>
+</div>
+
+<ng-template #canaryDeploymentConfirmationModal let-c="close" let-d="dismiss">
+    <div class="modal-header border-bottom-0 pt-lg-4 pl-lg-4">
+        <h4 class="modal-title">Rollout or Canary?</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body {{themeClass}} {{smallScreenMenu}} pl-lg-4 pr-lg-4">
+        <p>{{deploymentConfirmationMessage}}</p>
+        <p>NB: Applying Canary Deployment will replace the existing Canary Deployment (if available)</p>
+    </div>
+    <div class="modal-footer d-flex justify-content-center border-top-0 p-t-10 p-b-40">
+        <button type="button" class="btn btn-outline-info" (click)="applyRolloutUpdate()">Apply Rollout</button>
+        <button type="button" class="btn btn-outline-info" (click)="applyCanaryDeployment()">Apply Canary Deployment</button>
+        <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+    </div>
+</ng-template>
+
+<ng-template #rolloutConfirmationModal let-c="close" let-d="dismiss">
+    <div class="modal-header border-bottom-0 pt-lg-4 pl-lg-4">
+        <h4 class="modal-title">Apply Rollout Update?</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body {{themeClass}} {{smallScreenMenu}} pt-lg-4 pl-lg-4">
+        <p>This is commit is already running a Canary Deployment here. Do you want to migrate to a full Rollout update?</p>
+    </div>
+    <div class="modal-footer d-flex justify-content-center border-top-0 p-t-10 p-b-40">
+        <button type="button" class="btn btn-outline-info" (click)="applyRolloutUpdate()">Apply Rollout Update</button>
+        <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+    </div>
+</ng-template>
+
+<ng-template #logModal let-c="close" let-d="dismiss">
+    <div class="modal-header d-flex justify-content-between">
+        <h4 class="modal-title mt-1">Log </h4>
+        <div>
+            <button *ngIf="!logFullScreen" type="button" class="btn px-0" aria-label="Close"
+                (click)="expandTofullScreen()">
+                <i class="icon-size-fullscreen"></i>
+            </button>
+            <button *ngIf="logFullScreen" type="button" class="btn px-0" aria-label="Close"
+                (click)="minimizefullScreen()">
+                <i class="icon-size-actual"></i>
+            </button>
+            <button type="button" class="btn mb-0" style="font-size: 40px; margin-top: -8px; font-weight: 100"
+                aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+    <div class="modal-body logModal bg-dark text-light">
+        <div [innerHTML]="logOnModal"></div>
+    </div>
+    <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+    </div> -->
+</ng-template>
+
+<div class="pipeline-step-details-container" [ngClass]="{'visible': showPipelineStepDescription, 'side-bar-visible': sidebarVisible}">
+    <button type="button" class="btn mb-0 close-button"
+            aria-label="Close" (click)="closePipelineStepDescriptionView()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+
+    <div class="col-md-12 pt-4 pl-5">
+        <div class="row">
+            <div class="col-3">
+                <label>Step Name:</label>
+            </div>
+            <div class="col-9">
+                {{currentShowingPipelineStep?.appPipelineStep?.name | titlecase}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-3">
+                <label>Status:</label>
+            </div>
+            <div class="col-9">
+                {{currentShowingPipelineStep?.type | lowercase | titlecase}}
+            </div>
+        </div>
+
+        <div *ngIf="this.currentShowingPipelineStep?.appPipelineStep?.stepType == 'DEPLOY'" class="row">
+            <div class="col-3">
+                <label>Internal Url:</label>
+            </div>
+            <div class="col-9">
+                {{currentShowingPipelineStep?.runningAsCanary ? currentShowingPipelineStep?.appVpc?.internalCanaryUrl : currentShowingPipelineStep?.appVpc?.internalUrl}}
+            </div>
+        </div>
+
+        <div *ngIf="this.currentShowingPipelineStep?.appPipelineStep?.stepType == 'DEPLOY' && currentShowingPipelineStep?.appVpc?.ingressConfig?.defaultIngressUrl != null && currentShowingPipelineStep?.appVpc?.ingressConfig?.canaryIngressUrl != null" class="row">
+            <div class="col-3">
+                <label>External Default Url:</label>
+            </div>
+            <div class="col-9">
+                <a *ngIf="!currentShowingPipelineStep?.runningAsCanary" href="http://{{currentShowingPipelineStep?.appVpc?.ingressConfig?.defaultIngressUrl}}" target="_blank">http://{{currentShowingPipelineStep?.appVpc?.ingressConfig?.defaultIngressUrl}}</a>
+                <a *ngIf="currentShowingPipelineStep?.runningAsCanary" href="http://{{currentShowingPipelineStep?.appVpc?.ingressConfig?.canaryIngressUrl}}" target="_blank">http://{{currentShowingPipelineStep?.appVpc?.ingressConfig?.canaryIngressUrl}}</a>
+            </div>
+        </div>
+
+        <div *ngIf="this.currentShowingPipelineStep?.appPipelineStep?.stepType == 'DEPLOY' && !currentShowingPipelineStep?.runningAsCanary" class="row">
+            <div class="col-3">
+                <label>External Custom Url:</label>
+            </div>
+            <div class="col-9">
+                <span  *ngIf="currentShowingPipelineStep?.appVpc?.ingressConfig?.customIngressUrl != null">http://{{currentShowingPipelineStep?.appVpc?.ingressConfig?.customIngressUrl}}</span>
+            </div>
+        </div>
+    </div>
+</div>

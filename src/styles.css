@@ -1,0 +1,316 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+.echart-line-chart {
+  height: 3em;
+  width: 8em;
+}
+.echart-line-chart-area {
+  height: 50px;
+}
+.fix-h-292 {
+  height: 292px !important;
+}
+.echart-doughnut {
+  width: 150px;
+  height: 150px;
+  margin: 0 auto;
+}
+
+.cwidget-scroll {
+  height: 260px;
+  overflow: auto;
+}
+
+.sidebar {
+  overflow-y: scroll;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+.sidebar::-webkit-scrollbar {
+  /* WebKit */
+  width: 0px;
+}
+.parsley-errors-list {
+  list-style-type: none;
+  line-height: 0.9em;
+  padding-left: 5px;
+}
+.form-control,
+.custom-file-input {
+  height: auto;
+}
+
+/* Utility Classes */
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.show-dot-on-overflow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mat-progress-spinner circle, .mat-spinner circle {
+  stroke: #45e5c3;
+}
+
+/* Scrollbar Style */
+
+/* width */
+/* ::-webkit-scrollbar {
+  width: 2%;
+}
+
+/* Track */
+/* ::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 5px grey;
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+} */
+
+/* Handle */
+/* ::-webkit-scrollbar-thumb {
+  background: red;
+  border-radius: 10px;
+} */
+
+/* Handle on hover */
+/* ::-webkit-scrollbar-thumb:hover {
+  background: #b30000;
+} */
+
+
+.navbar-nav ul.notifications{
+  background: #F4F7F6 !important;
+}
+
+/* Removing bootstrap button outline */
+.btn:focus,.btn:active {
+  outline: none !important;
+  box-shadow: none;
+}
+button:focus {
+  outline: none !important;
+}
+
+.disabled{
+  opacity: .5;
+}
+
+
+.fullscreeen-modal-dialog {
+  /* width: 100vw !important; */
+  /* height: 100vh !important; */
+  margin: 0 !important;
+  padding: 0 !important;
+  max-width: 100vw !important;
+}
+
+.fullscreeen-modal-content {
+  height: 100vh !important;
+  min-height: 100% !important;
+  border-radius: 0 !important;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.mt-30 {
+  margin-top: 30px;
+}
+
+.mt-50 {
+  margin-top: 50px;
+}
+
+.label-failed {
+  color: darkred;
+}
+
+/* ellipsis loader */
+.lds-ellipsis {
+  display: inline-block;
+  position: relative;
+  width: 64px;
+  height: 25px;
+}
+.lds-ellipsis div {
+  position: absolute;
+  top: 4px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #007BFF;
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+.lds-ellipsis div:nth-child(1) {
+  left: 6px;
+  animation: lds-ellipsis1 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(2) {
+  left: 6px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(3) {
+  left: 26px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(4) {
+  left: 45px;
+  animation: lds-ellipsis3 0.6s infinite;
+}
+
+@keyframes lds-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes lds-ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(19px, 0);
+  }
+}
+
+.le-color-theme div{
+  background: #00acc1 !important;
+}
+
+.lds-ellipsis-sm {
+  display: inline-block;
+  position: relative;
+  width: 50px;
+  height: 20px;
+}
+.lds-ellipsis-sm div {
+  position: absolute;
+  top: 4px;
+  width: 7px !important;
+  height: 7px !important;
+  border-radius: 50%;
+  background: #007BFF;
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+.lds-ellipsis-sm div:nth-child(1) {
+  left: 0px;
+  animation: lds-ellipsis1 0.6s infinite;
+}
+.lds-ellipsis-sm div:nth-child(2) {
+  left: 0px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis-sm div:nth-child(3) {
+  left: 19px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis-sm div:nth-child(4) {
+  left: 38px;
+  animation: lds-ellipsis3 0.6s infinite;
+}
+
+
+
+
+/*
+ *  CUSTOM SCROLL
+ */
+
+body::-webkit-scrollbar-track
+{
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.2);
+  background-color: #F5F5F5;
+}
+
+body::-webkit-scrollbar
+{
+  width: 6px;
+  height: 6px;
+  background-color: #F5F5F5;
+}
+
+body::-webkit-scrollbar-thumb
+{
+  background-color: #555555;
+}
+
+/* CUSTOM SCROLL ENDS */
+
+
+.btn-fw-180 {
+  width: 180px !important;
+}
+
+.mt-m15 {
+  margin-top: -15px;
+}
+
+
+.mat-vertical-stepper-header{
+  padding: 12px 24px !important;
+}
+
+.mat-expansion-panel{
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1) !important;
+}
+
+.sidebarButton{
+  padding: .5rem;
+  background: #49c5b6;
+  color: white;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: .5rem;
+}
+
+.ng5-slider .ng5-slider-pointer {
+  background-color: #8dddd3 !important;
+  width: 20px !important;
+  height: 20px !important;
+  top: -9px !important;
+}
+.ng5-slider .ng5-slider-pointer:after {
+  display: none !important;
+}
+.ng5-slider .ng5-slider-bar,
+.ng5-slider-tick {
+  background: #aff3eb !important;
+}
+.ng5-slider .ng5-slider-pointer.ng5-slider-active {
+  background-color: #4effea !important;
+  outline: none !important;
+  border: none !important;
+}
+.ng5-slider .ng5-slider-tick {
+  width: 2px !important;
+  height: 8px !important;
+  border-radius: none !important;
+  top: 1 !important;
+}
+
+.ng5-slider .ng5-slider-bubble {
+  font-size: 0.7rem !important;
+}
+.ng5-slider[disabled] {
+   opacity: .7;
+}
+

@@ -1,0 +1,120 @@
+<div class="container-fluid">
+    <div class="block-header">
+        <div class="row">
+            <div class="col-lg-5 col-md-8 col-sm-12">
+                <h2>
+                    <a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"
+                        (click)="toggleFullWidth()">
+                        <i class="fa fa-arrow-left" *ngIf="sidebarVisible"></i>
+                        <i class="fa fa-arrow-right" *ngIf="!sidebarVisible"></i>
+                    </a>
+                    VPC List
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="row clearfix" *ngIf="!dataLoading && vpcList.length <= 0">
+        <div class="col-lg-12 col-md-12">
+            <div class="card default-full-height pt-4">
+                <div class="p-4 text-center">
+                    <img src="assets/images/icon/ic_cluster.png"  class="img-vpc"/>
+                    <h4 class="mt-4">Create your first VPC</h4>
+                    <p class="mt-2 mb-4">And start deploying your applications</p>
+
+                    <div class="mt-2 my-4 py-4" *ngIf="!actionButtonChecker">
+                        <span class='pulse-button' (click)="goToCreate()">Start</span>
+                    </div>
+
+                    <!-- <div class="my-4 py-4" *ngIf="actionButtonChecker">
+                        <span class='pulse-button' style="animation:none" (click)="showStartButton()">Cancel</span>
+                    </div> -->
+                    <!-- <div class="my-4 py-4 actionButton" *ngIf="actionButtonChecker">
+                        <button class="btn btn-primary mb-4 rounded-circle px-2 py-4" (click)="showStartButton()"
+                            *ngIf="actionButtonChecker">CANCEL</button>
+                    </div> -->
+                    <button class="btn btn-danger mb-4" *ngIf="actionButtonChecker"
+                        (click)="showStartButton()">Cancel</button>
+                    <div class="d-flex justify-content-center actionButton" *ngIf="actionButtonChecker">
+                        <!-- <span class='pulse-button' (click)="showStartButton()">Cancel</span> -->
+                        <button class="btn btn-outline-primary btn-fw-180" (click)="openCreateModal()">Create New App</button>
+                        <span class="mx-2 mt-2">or</span>
+                        <button class="btn btn-outline-primary btn-fw-180" (click)="openAddFromRepoModal()">Add From Repository</button>
+                    </div>
+                </div>
+                <!-- <div class="body project_report" *ngIf="tableValue.length>0">
+                    <div class="d-flex justify-content-end mb-2">
+                        <a class="btn btn-outline-primary" (click)="openCreateModal()">Add Organization</a>
+                        <a class="btn btn-outline-danger ml-2" *ngIf="selection.hasValue()"
+                            (click)="openDeleteModal(deleteOrganizationModal)">Batch Delete</a>
+                    </div>
+
+
+                </div> -->
+            </div>
+        </div>
+    </div>
+    <div class="row clearfix " *ngIf="!dataLoading && vpcList.length > 0">
+        <div class="col-md-3 px-2 mt-4">
+            <div class="card pricing2 d-flex flex-column justify-content-center align-content-center mb-0 mr-4"
+                style="height: 100% !important">
+                <!-- 190px -->
+                <a style="cursor: pointer;" (click)="goToCreate()"><i class="fa fa-4x fa-plus-circle pt-2"
+                        style="color:#00acc1"></i></a>
+                <p class="pt-2"><strong> Create New Vpc</strong></p>
+            </div>
+        </div>
+        <div *ngFor="let vpc of vpcList" class="col-md-3 px-2 mt-4">
+            <div *ngIf="vpcList.length>0" style="height:100% !important" style="height:100% !important">
+                <div class="card pricing2 pt-1 pb-4 mb-0 py-2 cursor-pointer" style="height: 100% !important">
+                    <!-- 190px -->
+                    <div class="px-4 pt-4">
+                        <div class="row">
+                            <div class="col-2">
+                                <i class="fa fa-3x fa-server pb-1" style="color:#00acc1"></i></div>
+                            <div class="col-8 text-left">
+                                <p class="pl-3 font-weight-bold text-dark show-dot-on-overflow" style="max-width:150px"
+                                    [title]="vpc.name" (click)="goToVpcDetail(vpc)">
+                                    {{vpc.name}}<br>
+                                    <span class="font-weight-bold">{{ vpc.vpcStatus.replace('_',' ') | titlecase }}</span>
+                                </p>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <div class="input-group" ngbDropdown>
+                                        <button class="btn dropdown-toggle p-0" type="button"
+                                            ngbDropdownToggle></button>
+                                        <div class="dropdown-menu" ngbDropdownMenu>
+                                            <a class="dropdown-item"
+                                                [routerLink]="['detail', vpc.id]">Manage</a>
+                                            <a class="dropdown-item"
+                                                (click)="openDeleteModal(deletevpc,vpc)">Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #deletevpc let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Delete Vpc</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body {{themeClass}} {{smallScreenMenu}}">
+        <p>Are you sure you want to delete vpc
+            '{{deletingVpc.name}}'?</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger" (click)="onDeleteConfirmation()">Delete</button>
+        <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+    </div>
+</ng-template>
